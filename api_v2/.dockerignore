@@ -1,0 +1,10 @@
+**/.classpath
+**/.dockerignore
+**/.git
+**/.github
+**/.gitignore
+**/Dockerfile*
+**/node_modules
+.env
+.eslintrc.js
+README.md

@@ -5,4 +5,5 @@
 
 .env.client
 .env.api
+.env.api_v2
 .env.db

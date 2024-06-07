@@ -68,3 +68,10 @@ HRIS is an internal project for the admin team of Sun Asterisk PH that aims to h
 - Connect to your local or docker database engine (e.g `localhost\<container-name>,<port>`)
 - Fill username (e.g. `sa` - default username) and password
 - Click connect
+
+## NestJS API Setup
+- Run `cd sph-hris/api_v2` to head into the NestJS directory
+- Run `cp .env.api_v2.example .env.api_v2` to create a local env for NestJS
+- In .env.api_v2, supply the blank fields with the necessary values
+- Run `npm install` to install the dependencies
+- Run `npm run start:dev` to run the app manually
