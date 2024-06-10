@@ -4,7 +4,7 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER 1
 
 WORKDIR /src
 
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-ef --version 7.0.0
 RUN dotnet dev-certs https --trust
 
 ENV PATH="$PATH:/root/.dotnet/tools"
