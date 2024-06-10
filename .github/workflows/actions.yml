@@ -58,7 +58,7 @@ jobs:
           node-version: 22.1.0
 
       - name: Install modules
-        run: cd client && npm ci
+        run: cd api_v2 && npm ci
 
       - name: Build NestJS project
         run: cd api_v2 && npm run build
