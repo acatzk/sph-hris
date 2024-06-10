@@ -45,24 +45,6 @@ jobs:
       - name: Build dotnet project
         run: cd api && dotnet build
 
-  build-api-v2:
-    name: Build api_v2 backend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout git repo
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.1.0
-
-      - name: Install modules
-        run: cd client && npm ci
-
-      - name: Build NestJS project
-        run: cd api_v2 && npm run build
-  
   build-docker:
     runs-on: ubuntu-latest
     steps:
@@ -76,9 +58,6 @@ jobs:
 
       - name: Create db env file
         run: cp .env.db.example .env.db
-
-      - name: Create api_v2 env file
-        run: cp .env.api_v2.example .env.api_v2
 
       - name: Build the Docker image
         run: docker compose build
