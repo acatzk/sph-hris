@@ -76,4 +76,4 @@ HRIS is an internal project for the admin team of Sun Asterisk PH that aims to h
 - In .env.api_v2, supply the blank fields with the necessary values
 - Run `npm install` to install the dependencies
 - Run `npm run dev` to run the app manually
-  - Note: 
+  - Note: We recommend running the project locally using `npm run dev` instead of running in a docker container, for performance related reasons. 
