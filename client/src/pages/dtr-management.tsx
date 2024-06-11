@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { PulseLoader } from 'react-spinners'
 import React, { useEffect, useState } from 'react'
+import { CSVLink } from 'react-csv'
 
 import NotFound from './404'
 import useUserQuery from '~/hooks/useUserQuery'
@@ -111,13 +112,13 @@ const DTRManagement: NextPage = (): JSX.Element => {
     data: allEmployee.data,
     error: allEmployee.error,
     isLoading: allEmployee.isLoading
-  })
+  }) //////
 
   const [fetchedSummaryData, setFetchedSummaryData] = useState({
     data: summary.data,
     error: summary.error,
     isLoading: summary.isLoading
-  })
+  }) //////
 
   const handleURLParameterChange = (query: URLParameterType): void => {
     void router.replace({
@@ -210,16 +211,28 @@ const DTRManagement: NextPage = (): JSX.Element => {
 
   useEffect(() => {
     setFetchedData(allEmployee, setFetchedAllEmployeeData)
+    console.log(fetchedAllEmployeeData)
   }, [allEmployee.data])
 
   useEffect(() => {
     setFetchedData(summary, setFetchedSummaryData)
   }, [summary.data])
-
   if (process.env.NODE_ENV === 'production' && currentUser?.userById.role.name !== Roles.HR_ADMIN) {
     return <NotFound />
   }
-
+  const headers = [
+    { label: 'ID', key: 'id' },
+    { label: 'Date', key: 'date' },
+    { label: 'Name', key: 'user.name' },
+    { label: 'Time In', key: 'timeIn.timeHour' },
+    { label: 'Time Out', key: 'timeOut.timeHour' },
+    { label: 'Start Time', key: 'startTime' },
+    { label: 'End Time', key: 'endTime' },
+    { label: 'Work Hours', key: 'workedHours' },
+    { label: 'Late', key: 'late' },
+    { label: 'Undertime', key: 'undertime' },
+    { label: 'Overtime', key: 'overtime.approvedMinutes' }
+  ]
   return (
     <Layout metaTitle="DTR Management">
       <section className="default-scrollbar relative h-full min-h-full overflow-auto text-xs text-slate-800">
@@ -246,7 +259,7 @@ const DTRManagement: NextPage = (): JSX.Element => {
               placeholder="Search"
             />
             <div className="flex items-center space-x-2 text-slate-500">
-              <div className="fixed right-[68px] z-50">
+              <div className="fixed right-[150px] z-50">
                 <TimeSheetFilterDropdown
                   filters={filters}
                   setFilters={setFilters}
@@ -262,6 +275,16 @@ const DTRManagement: NextPage = (): JSX.Element => {
                   }
                 }}
               />
+
+              <CSVLink
+                data={fetchedAllEmployeeData.data?.timeEntries || []}
+                headers={headers}
+                filename="DTR_Data.csv"
+              >
+                <button className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
+                  Export
+                </button>
+              </CSVLink>
             </div>
           </div>
         </header>
