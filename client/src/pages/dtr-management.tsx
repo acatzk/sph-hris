@@ -276,7 +276,7 @@ const DTRManagement: NextPage = (): JSX.Element => {
               />
 
               <CSVLink
-                data={fetchedAllEmployeeData.data?.timeEntries || []}
+                data={fetchedAllEmployeeData.data?.timeEntries ?? []}
                 headers={headers}
                 filename="DTR_Data.csv"
               >
