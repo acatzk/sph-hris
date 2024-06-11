@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
 
-  # ASP.NET Service
+  # NestJS Service
   api_v2:
     build:
       context: ./api_v2

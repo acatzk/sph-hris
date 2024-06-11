@@ -52,6 +52,7 @@ HRIS is an internal project for the admin team of Sun Asterisk PH that aims to h
 3. cp .env.api.example .env.api
 4. cp .env.client.example .env.client
 5. cp .env.db.example .env.db
+5. cp .env.api_v2.example .env.api_v2
 6. `docker compose build` or `docker compose up --build` (this will automatically build and run the containers)
 7. `docker compose up` (To stop docker containers, run: `docker compose down`)
 
@@ -75,3 +76,4 @@ HRIS is an internal project for the admin team of Sun Asterisk PH that aims to h
 - In .env.api_v2, supply the blank fields with the necessary values
 - Run `npm install` to install the dependencies
 - Run `npm run dev` to run the app manually
+  - Note: 
