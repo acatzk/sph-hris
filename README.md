@@ -74,4 +74,4 @@ HRIS is an internal project for the admin team of Sun Asterisk PH that aims to h
 - Run `cp .env.api_v2.example .env.api_v2` to create a local env for NestJS
 - In .env.api_v2, supply the blank fields with the necessary values
 - Run `npm install` to install the dependencies
-- Run `npm run start:dev` to run the app manually
+- Run `npm run dev` to run the app manually

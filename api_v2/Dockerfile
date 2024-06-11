@@ -11,4 +11,4 @@ COPY . /usr/src/api_v2/
 
 EXPOSE 3001
 
-ENTRYPOINT ["npm", "run", "start:dev"]
+ENTRYPOINT ["npm", "run", "dev"]
