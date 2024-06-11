@@ -1,4 +1,4 @@
-version: "3.9"
+version: "4.0"
 
 services:
   # ASP.NET Service
@@ -18,6 +18,21 @@ services:
       - prac-hris
     depends_on:
       - db
+
+  # NestJS Service
+  api_v2:
+    build:
+      context: ./api_v2
+    ports:
+      - 3001:3001
+    expose:
+      - 3001
+    env_file:
+      - .env.api_v2
+    networks:
+      - prac-hris
+    depends_on:
+      - api
 
   # NextJS Service
   client:
