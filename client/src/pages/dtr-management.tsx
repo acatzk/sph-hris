@@ -112,13 +112,13 @@ const DTRManagement: NextPage = (): JSX.Element => {
     data: allEmployee.data,
     error: allEmployee.error,
     isLoading: allEmployee.isLoading
-  }) //////
+  })
 
   const [fetchedSummaryData, setFetchedSummaryData] = useState({
     data: summary.data,
     error: summary.error,
     isLoading: summary.isLoading
-  }) //////
+  })
 
   const handleURLParameterChange = (query: URLParameterType): void => {
     void router.replace({
@@ -211,7 +211,6 @@ const DTRManagement: NextPage = (): JSX.Element => {
 
   useEffect(() => {
     setFetchedData(allEmployee, setFetchedAllEmployeeData)
-    console.log(fetchedAllEmployeeData)
   }, [allEmployee.data])
 
   useEffect(() => {
