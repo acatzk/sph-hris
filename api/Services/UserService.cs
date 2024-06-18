@@ -45,6 +45,23 @@ namespace api.Services
             }
         }
 
+        public async Task<UserDTO?> GetUserByEmail(string email)
+        {
+            using (HrisContext context = _contextFactory.CreateDbContext())
+            {
+                User? user = await context.Users
+                    .Include(i => i.EmployeeSchedule)
+                        .ThenInclude(i => i.WorkingDayTimes)
+                    .Include(i => i.TimeEntries.OrderByDescending(o => o.CreatedAt))
+                        .ThenInclude(i => i.TimeIn)
+                    .Include(i => i.TimeEntries.OrderByDescending(o => o.CreatedAt))
+                        .ThenInclude(i => i.TimeOut)
+                    .Where(i => i.Email == email).FirstAsync();
+
+                return user != null ? new UserDTO(user, "") : null;
+            }
+        }
+
         public async Task<List<User>> ESLUsers(int? exceptUserId)
         {
             using (HrisContext context = _contextFactory.CreateDbContext())

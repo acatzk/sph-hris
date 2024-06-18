@@ -18,6 +18,12 @@ namespace api.Schema.Queries
         {
             return _userService.GetLoggedInUser();
         }
+
+        public async Task<UserDTO?> GetUserByEmail([Service] UserService _userService, string email)
+        {
+            return await _userService.GetUserByEmail(email);
+        }
+
         public async Task<List<User>> GetAllUsers([Service] UserService _userService)
         {
             return await _userService.Index();

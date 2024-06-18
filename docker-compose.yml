@@ -1,4 +1,4 @@
-version: "4.0"
+version: "4.1"
 
 services:
   # ASP.NET Service
@@ -33,6 +33,7 @@ services:
       - prac-hris
     depends_on:
       - api
+      - redis
 
   # NextJS Service
   client:
@@ -90,6 +91,21 @@ services:
     command: certonly --webroot -w /var/www/certbot --force-renewal --email abduljalil.palala@sun-asterisk.com -d sun-hris.org --agree-tos
     networks:
       - prac-hris
+
+  #Redis Cache Service
+  redis:
+    image: "redis:latest"
+    ports:
+      - 6379:6379
+    networks:
+      - prac-hris
+    volumes:
+      - redis-data:/data
+
 networks:
   prac-hris:
     driver: bridge
+
+volumes:
+  redis-data: 
+    driver: local
