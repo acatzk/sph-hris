@@ -98,11 +98,11 @@ export class HrisApiService {
 
       const notLoggedIn = timeEntry.timeIn ? false : true;
 
-      const notOnRestDay =
-        timeEntry.startTime !== '00:00' && timeEntry.endTime !== '00:00';
+      const onRestDay =
+        timeEntry.startTime == '00:00' && timeEntry.endTime == '00:00';
 
       return (
-        notLoggedIn && notOnRestDay && (shiftInTwentyMins || pastStartShiftTime)
+        notLoggedIn && !onRestDay && (shiftInTwentyMins || pastStartShiftTime)
       );
     });
   }
