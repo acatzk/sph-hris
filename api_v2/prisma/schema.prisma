@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,4 +11,415 @@ generator prismaClassGenerator {
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
+}
+
+model EfMigrationsHistory {
+  migrationId    String @id(map: "PK___EFMigrationsHistory") @map("MigrationId") @db.NVarChar(150)
+  productVersion String @map("ProductVersion") @db.NVarChar(32)
+
+  @@map("__EFMigrationsHistory")
+}
+
+model ChangeScheduleRequests {
+  id                Int       @id(map: "PK_ChangeScheduleRequests") @default(autoincrement()) @map("Id")
+  userId            Int       @map("UserId")
+  isManagerApproved Boolean?  @map("IsManagerApproved")
+  isLeaderApproved  Boolean?  @map("IsLeaderApproved")
+  data              String    @map("Data") @db.NVarChar(Max)
+  createdAt         DateTime? @map("CreatedAt")
+  updatedAt         DateTime? @map("UpdatedAt")
+  user              Users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ChangeScheduleRequests_Users_UserId")
+
+  @@index([userId], map: "IX_ChangeScheduleRequests_UserId")
+}
+
+model ChangeShiftRequests {
+  id                Int             @id(map: "PK_ChangeShiftRequests") @default(autoincrement()) @map("Id")
+  userId            Int             @map("UserId")
+  timeEntryId       Int             @unique(map: "IX_ChangeShiftRequests_TimeEntryId") @map("TimeEntryId")
+  managerId         Int             @map("ManagerId")
+  timeIn            DateTime        @map("TimeIn") @db.Time
+  timeOut           DateTime        @map("TimeOut") @db.Time
+  otherProject      String?         @map("OtherProject") @db.NVarChar(Max)
+  description       String          @map("Description") @db.NVarChar(Max)
+  isManagerApproved Boolean?        @map("IsManagerApproved")
+  isLeaderApproved  Boolean?        @map("IsLeaderApproved")
+  createdAt         DateTime?       @map("CreatedAt")
+  updatedAt         DateTime?       @map("UpdatedAt")
+  timeEntry         TimeEntries     @relation(fields: [timeEntryId], references: [id], onUpdate: NoAction, map: "FK_ChangeShiftRequests_TimeEntries_TimeEntryId")
+  manager           Users           @relation("ChangeShiftRequests_ManagerIdToUsers", fields: [managerId], references: [id], onUpdate: NoAction, map: "FK_ChangeShiftRequests_Users_ManagerId")
+  user              Users           @relation("ChangeShiftRequests_UserIdToUsers", fields: [userId], references: [id], onUpdate: NoAction, map: "FK_ChangeShiftRequests_Users_UserId")
+  multiProjects     MultiProjects[]
+  notifications     Notifications[]
+
+  @@index([managerId], map: "IX_ChangeShiftRequests_ManagerId")
+  @@index([userId], map: "IX_ChangeShiftRequests_UserId")
+}
+
+model EmployeeSchedules {
+  id              Int               @id(map: "PK_EmployeeSchedules") @default(autoincrement()) @map("Id")
+  name            String?           @map("Name") @db.NVarChar(Max)
+  createdAt       DateTime?         @map("CreatedAt")
+  updatedAt       DateTime?         @map("UpdatedAt")
+  users           Users[]
+  workingDayTimes WorkingDayTimes[]
+}
+
+model EslChangeShiftRequests {
+  id               Int             @id(map: "PK_ESLChangeShiftRequests") @default(autoincrement()) @map("Id")
+  userId           Int             @map("UserId")
+  timeEntryId      Int             @map("TimeEntryId")
+  teamLeaderId     Int             @map("TeamLeaderId")
+  timeIn           DateTime        @map("TimeIn") @db.Time
+  timeOut          DateTime        @map("TimeOut") @db.Time
+  description      String          @map("Description") @db.NVarChar(Max)
+  isLeaderApproved Boolean?        @map("IsLeaderApproved")
+  createdAt        DateTime?       @map("CreatedAt")
+  updatedAt        DateTime?       @map("UpdatedAt")
+  timeEntry        TimeEntries     @relation(fields: [timeEntryId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ESLChangeShiftRequests_TimeEntries_TimeEntryId")
+  teamLeader       Users           @relation("ESLChangeShiftRequests_TeamLeaderIdToUsers", fields: [teamLeaderId], references: [id], onUpdate: NoAction, map: "FK_ESLChangeShiftRequests_Users_TeamLeaderId")
+  user             Users           @relation("ESLChangeShiftRequests_UserIdToUsers", fields: [userId], references: [id], onUpdate: NoAction, map: "FK_ESLChangeShiftRequests_Users_UserId")
+  eslOffsets       EslOffsets[]
+  notifications    Notifications[]
+
+  @@index([teamLeaderId], map: "IX_ESLChangeShiftRequests_TeamLeaderId")
+  @@index([timeEntryId], map: "IX_ESLChangeShiftRequests_TimeEntryId")
+  @@index([userId], map: "IX_ESLChangeShiftRequests_UserId")
+  @@map("ESLChangeShiftRequests")
+}
+
+model EslOffsets {
+  id                      Int                     @id(map: "PK_ESLOffsets") @default(autoincrement()) @map("Id")
+  userId                  Int                     @map("UserId")
+  timeEntryId             Int                     @map("TimeEntryId")
+  teamLeaderId            Int                     @map("TeamLeaderId")
+  timeIn                  DateTime                @map("TimeIn") @db.Time
+  timeOut                 DateTime                @map("TimeOut") @db.Time
+  title                   String                  @map("Title") @db.NVarChar(Max)
+  description             String                  @map("Description") @db.NVarChar(Max)
+  isLeaderApproved        Boolean?                @map("IsLeaderApproved")
+  createdAt               DateTime?               @map("CreatedAt")
+  updatedAt               DateTime?               @map("UpdatedAt")
+  eslChangeShiftRequestId Int?                    @map("ESLChangeShiftRequestId")
+  isUsed                  Boolean                 @default(dbgenerated("CONVERT([bit],(0))"), map: "DF__ESLOffset__IsUse__2EDAF651") @map("IsUsed")
+  eslChangeShiftRequest   EslChangeShiftRequests? @relation(fields: [eslChangeShiftRequestId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_ESLOffsets_ESLChangeShiftRequests_ESLChangeShiftRequestId")
+  timeEntry               TimeEntries             @relation(fields: [timeEntryId], references: [id], onUpdate: NoAction, map: "FK_ESLOffsets_TimeEntries_TimeEntryId")
+  teamLeader              Users                   @relation("ESLOffsets_TeamLeaderIdToUsers", fields: [teamLeaderId], references: [id], onUpdate: NoAction, map: "FK_ESLOffsets_Users_TeamLeaderId")
+  user                    Users                   @relation("ESLOffsets_UserIdToUsers", fields: [userId], references: [id], onUpdate: NoAction, map: "FK_ESLOffsets_Users_UserId")
+  notifications           Notifications[]
+
+  @@index([eslChangeShiftRequestId], map: "IX_ESLOffsets_ESLChangeShiftRequestId")
+  @@index([teamLeaderId], map: "IX_ESLOffsets_TeamLeaderId")
+  @@index([timeEntryId], map: "IX_ESLOffsets_TimeEntryId")
+  @@index([userId], map: "IX_ESLOffsets_UserId")
+  @@map("ESLOffsets")
+}
+
+model Forms {
+  id        Int       @id(map: "PK_Forms") @default(autoincrement()) @map("Id")
+  userId    Int       @map("UserId")
+  type      String    @map("Type") @db.NVarChar(Max)
+  field     String    @map("Field") @db.NVarChar(Max)
+  value     String?   @map("Value") @db.NVarChar(Max)
+  createdAt DateTime? @map("CreatedAt")
+  updatedAt DateTime? @map("UpdatedAt")
+  user      Users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Forms_Users_UserId")
+
+  @@index([userId], map: "IX_Forms_UserId")
+}
+
+model Leaves {
+  id                Int             @id(map: "PK_Leaves") @default(autoincrement()) @map("Id")
+  userId            Int             @map("UserId")
+  projectId         Int?            @map("ProjectId")
+  leaveTypeId       Int             @map("LeaveTypeId")
+  managerId         Int?            @map("ManagerId")
+  otherProject      String?         @map("OtherProject") @db.NVarChar(Max)
+  reason            String?         @map("Reason") @db.NVarChar(Max)
+  leaveDate         DateTime        @map("LeaveDate")
+  isWithPay         Boolean         @map("IsWithPay")
+  isLeaderApproved  Boolean?        @map("IsLeaderApproved")
+  isManagerApproved Boolean?        @map("IsManagerApproved")
+  createdAt         DateTime?       @map("CreatedAt")
+  updatedAt         DateTime?       @map("UpdatedAt")
+  days              Float           @default(dbgenerated("CONVERT([real],(0))"), map: "DF__Leaves__Days__7C4F7684") @map("Days") @db.Real
+  isDeleted         Boolean         @default(dbgenerated("CONVERT([bit],(0))"), map: "DF__Leaves__IsDelete__37703C52") @map("IsDeleted")
+  leaveType         LeaveTypes      @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Leaves_LeaveTypes_LeaveTypeId")
+  project           Projects?       @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Leaves_Projects_ProjectId")
+  manager           Users?          @relation("Leaves_ManagerIdToUsers", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Leaves_Users_ManagerId")
+  user              Users           @relation("Leaves_UserIdToUsers", fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Leaves_Users_UserId")
+  multiProjects     MultiProjects[]
+  notifications     Notifications[]
+
+  @@index([leaveTypeId], map: "IX_Leaves_LeaveTypeId")
+  @@index([managerId], map: "IX_Leaves_ManagerId")
+  @@index([projectId], map: "IX_Leaves_ProjectId")
+  @@index([userId], map: "IX_Leaves_UserId")
+}
+
+model LeaveTypes {
+  id        Int       @id(map: "PK_LeaveTypes") @default(autoincrement()) @map("Id")
+  name      String    @map("Name") @db.NVarChar(Max)
+  createdAt DateTime? @map("CreatedAt")
+  updatedAt DateTime? @map("UpdatedAt")
+  leaves    Leaves[]
+}
+
+model Medias {
+  id             Int       @id(map: "PK_Medias") @default(autoincrement()) @map("Id")
+  collectionName String?   @map("CollectionName") @db.NVarChar(Max)
+  name           String?   @map("Name") @db.NVarChar(Max)
+  fileName       String?   @map("FileName") @db.NVarChar(Max)
+  mimeType       String?   @map("MimeType") @db.NVarChar(Max)
+  timeId         Int?      @map("TimeId")
+  createdAt      DateTime? @map("CreatedAt")
+  updatedAt      DateTime? @map("UpdatedAt")
+  time           Times?    @relation(fields: [timeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Medias_Times_TimeId")
+  users          Users[]
+
+  @@index([timeId], map: "IX_Medias_TimeId")
+}
+
+model MultiProjects {
+  id                   Int                  @id(map: "PK_MultiProjects") @default(autoincrement()) @map("Id")
+  type                 String               @map("Type") @db.NVarChar(Max)
+  projectId            Int?                 @map("ProjectId")
+  projectLeaderId      Int?                 @map("ProjectLeaderId")
+  leaveId              Int?                 @map("LeaveId")
+  overtimeId           Int?                 @map("OvertimeId")
+  createdAt            DateTime?            @map("CreatedAt")
+  updatedAt            DateTime?            @map("UpdatedAt")
+  changeShiftRequestId Int?                 @map("ChangeShiftRequestId")
+  changeShiftRequest   ChangeShiftRequests? @relation(fields: [changeShiftRequestId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_MultiProjects_ChangeShiftRequests_ChangeShiftRequestId")
+  leave                Leaves?              @relation(fields: [leaveId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_MultiProjects_Leaves_LeaveId")
+  overtime             Overtimes?           @relation(fields: [overtimeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_MultiProjects_Overtimes_OvertimeId")
+  project              Projects?            @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_MultiProjects_Projects_ProjectId")
+  user                 Users?               @relation(fields: [projectLeaderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_MultiProjects_Users_ProjectLeaderId")
+
+  @@index([changeShiftRequestId], map: "IX_MultiProjects_ChangeShiftRequestId")
+  @@index([leaveId], map: "IX_MultiProjects_LeaveId")
+  @@index([overtimeId], map: "IX_MultiProjects_OvertimeId")
+  @@index([projectId], map: "IX_MultiProjects_ProjectId")
+  @@index([projectLeaderId], map: "IX_MultiProjects_ProjectLeaderId")
+}
+
+model Notifications {
+  id                      Int                     @id(map: "PK_Notifications") @default(autoincrement()) @map("Id")
+  recipientId             Int?                    @map("RecipientId")
+  type                    String                  @map("Type") @db.NVarChar(Max)
+  data                    String                  @map("Data") @db.NVarChar(Max)
+  readAt                  DateTime?               @map("ReadAt")
+  isRead                  Boolean                 @map("IsRead")
+  leaveId                 Int?                    @map("LeaveId")
+  createdAt               DateTime?               @map("CreatedAt")
+  updatedAt               DateTime?               @map("UpdatedAt")
+  discriminator           String                  @default("N\\'\\'", map: "DF__Notificat__Discr__0B91BA14") @map("Discriminator") @db.NVarChar(Max)
+  overtimeId              Int?                    @map("OvertimeId")
+  changeShiftRequestId    Int?                    @map("ChangeShiftRequestId")
+  eslChangeShiftRequestId Int?                    @map("ESLChangeShiftRequestId")
+  eslOffsetId             Int?                    @map("ESLOffsetId")
+  relatedEntityId         Int?                    @map("RelatedEntityId")
+  changeShiftRequest      ChangeShiftRequests?    @relation(fields: [changeShiftRequestId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Notifications_ChangeShiftRequests_ChangeShiftRequestId")
+  eslChangeShiftRequest   EslChangeShiftRequests? @relation(fields: [eslChangeShiftRequestId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Notifications_ESLChangeShiftRequests_ESLChangeShiftRequestId")
+  eslOffset               EslOffsets?             @relation(fields: [eslOffsetId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Notifications_ESLOffsets_ESLOffsetId")
+  leave                   Leaves?                 @relation(fields: [leaveId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Notifications_Leaves_LeaveId")
+  overtime                Overtimes?              @relation(fields: [overtimeId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Notifications_Overtimes_OvertimeId")
+  user                    Users?                  @relation(fields: [recipientId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Notifications_Users_RecipientId")
+
+  @@index([changeShiftRequestId], map: "IX_Notifications_ChangeShiftRequestId")
+  @@index([eslChangeShiftRequestId], map: "IX_Notifications_ESLChangeShiftRequestId")
+  @@index([eslOffsetId], map: "IX_Notifications_ESLOffsetId")
+  @@index([leaveId], map: "IX_Notifications_LeaveId")
+  @@index([overtimeId], map: "IX_Notifications_OvertimeId")
+  @@index([recipientId], map: "IX_Notifications_RecipientId")
+}
+
+model Overtimes {
+  id                Int             @id(map: "PK_Overtimes") @default(autoincrement()) @map("Id")
+  userId            Int             @map("UserId")
+  managerId         Int?            @map("ManagerId")
+  otherProject      String?         @map("OtherProject") @db.NVarChar(Max)
+  remarks           String?         @map("Remarks") @db.NVarChar(Max)
+  overtimeDate      DateTime        @map("OvertimeDate")
+  requestedMinutes  Int             @map("RequestedMinutes")
+  approvedMinutes   Int?            @map("ApprovedMinutes")
+  isLeaderApproved  Boolean?        @map("IsLeaderApproved")
+  isManagerApproved Boolean?        @map("IsManagerApproved")
+  createdAt         DateTime?       @map("CreatedAt")
+  updatedAt         DateTime?       @map("UpdatedAt")
+  timeEntryId       Int             @unique(map: "IX_Overtimes_TimeEntryId") @default(0, map: "DF__Overtimes__TimeE__17036CC0") @map("TimeEntryId")
+  managerRemarks    String?         @map("ManagerRemarks") @db.NVarChar(Max)
+  multiProjects     MultiProjects[]
+  notifications     Notifications[]
+  timeEntry         TimeEntries     @relation(fields: [timeEntryId], references: [id], onUpdate: NoAction, map: "FK_Overtimes_TimeEntries_TimeEntryId")
+  manager           Users?          @relation("Overtimes_ManagerIdToUsers", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Overtimes_Users_ManagerId")
+  user              Users           @relation("Overtimes_UserIdToUsers", fields: [userId], references: [id], onUpdate: NoAction, map: "FK_Overtimes_Users_UserId")
+
+  @@index([managerId], map: "IX_Overtimes_ManagerId")
+  @@index([userId], map: "IX_Overtimes_UserId")
+}
+
+model PersonalAccessTokens {
+  id         Int       @id(map: "PK_Personal_Access_Tokens") @default(autoincrement()) @map("Id")
+  userId     Int       @map("UserId")
+  token      String    @map("Token") @db.NVarChar(Max)
+  expiration DateTime  @map("Expiration")
+  createdAt  DateTime? @map("CreatedAt")
+  updatedAt  DateTime? @map("UpdatedAt")
+  user       Users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Personal_Access_Tokens_Users_UserId")
+
+  @@index([userId], map: "IX_Personal_Access_Tokens_UserId")
+  @@map("Personal_Access_Tokens")
+}
+
+model Positions {
+  id        Int       @id(map: "PK_Positions") @default(autoincrement()) @map("Id")
+  name      String    @map("Name") @db.NVarChar(Max)
+  createdAt DateTime? @map("CreatedAt")
+  updatedAt DateTime? @map("UpdatedAt")
+  users     Users[]
+}
+
+model Projects {
+  id                 Int             @id(map: "PK_Projects") @default(autoincrement()) @map("Id")
+  projectLeaderId    Int?            @map("ProjectLeaderId")
+  projectSubLeaderId Int?            @map("ProjectSubLeaderId")
+  name               String          @map("Name") @db.NVarChar(Max)
+  createdAt          DateTime?       @map("CreatedAt")
+  updatedAt          DateTime?       @map("UpdatedAt")
+  leaves             Leaves[]
+  multiProjects      MultiProjects[]
+  projectLeader      Users?          @relation("Projects_ProjectLeaderIdToUsers", fields: [projectLeaderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Projects_Users_ProjectLeaderId")
+  projectSubLeader   Users?          @relation("Projects_ProjectSubLeaderIdToUsers", fields: [projectSubLeaderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Projects_Users_ProjectSubLeaderId")
+
+  @@index([projectLeaderId], map: "IX_Projects_ProjectLeaderId")
+  @@index([projectSubLeaderId], map: "IX_Projects_ProjectSubLeaderId")
+}
+
+model Roles {
+  id        Int       @id(map: "PK_Roles") @default(autoincrement()) @map("Id")
+  name      String?   @map("Name") @db.NVarChar(Max)
+  createdAt DateTime? @map("CreatedAt")
+  updatedAt DateTime? @map("UpdatedAt")
+  users     Users[]
+}
+
+model TimeEntries {
+  id                     Int                      @id(map: "PK_TimeEntries") @default(autoincrement()) @map("Id")
+  userId                 Int                      @map("UserId")
+  timeInId               Int?                     @map("TimeInId")
+  timeOutId              Int?                     @map("TimeOutId")
+  startTime              DateTime                 @map("StartTime") @db.Time
+  endTime                DateTime                 @map("EndTime") @db.Time
+  date                   DateTime                 @map("Date")
+  workedHours            String?                  @map("WorkedHours") @db.NVarChar(Max)
+  trackedHours           DateTime                 @map("TrackedHours") @db.Time
+  createdAt              DateTime?                @map("CreatedAt")
+  updatedAt              DateTime?                @map("UpdatedAt")
+  breakEndTime           DateTime                 @default(dbgenerated("00:00:00"), map: "DF__TimeEntri__Break__3587F3E0") @map("BreakEndTime") @db.Time
+  breakStartTime         DateTime                 @default(dbgenerated("00:00:00"), map: "DF__TimeEntri__Break__367C1819") @map("BreakStartTime") @db.Time
+  changeShiftRequest     ChangeShiftRequests?
+  eslChangeShiftRequests EslChangeShiftRequests[]
+  eslOffsets             EslOffsets[]
+  overtime               Overtimes?
+  timeIn                 Times?                   @relation("TimeEntries_TimeInIdToTimes", fields: [timeInId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_TimeEntries_Times_TimeInId")
+  timeOut                Times?                   @relation("TimeEntries_TimeOutIdToTimes", fields: [timeOutId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_TimeEntries_Times_TimeOutId")
+  user                   Users                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_TimeEntries_Users_UserId")
+  workInterruptions      WorkInterruptions[]
+
+  @@index([timeInId], map: "IX_TimeEntries_TimeInId")
+  @@index([timeOutId], map: "IX_TimeEntries_TimeOutId")
+  @@index([userId], map: "IX_TimeEntries_UserId")
+}
+
+model Times {
+  id                   Int           @id(map: "PK_Times") @default(autoincrement()) @map("Id")
+  timeHour             DateTime      @map("TimeHour") @db.Time
+  remarks              String?       @map("Remarks") @db.NVarChar(Max)
+  createdAt            DateTime?     @map("CreatedAt")
+  updatedAt            DateTime?     @map("UpdatedAt")
+  medias               Medias[]
+  timeEntriesAsTimeIn  TimeEntries[] @relation("TimeEntries_TimeInIdToTimes")
+  timeEntriesAsTimeOut TimeEntries[] @relation("TimeEntries_TimeOutIdToTimes")
+}
+
+model Users {
+  id                          Int                      @id(map: "PK_Users") @default(autoincrement()) @map("Id")
+  name                        String?                  @map("Name") @db.NVarChar(Max)
+  email                       String?                  @map("Email") @db.NVarChar(Max)
+  roleId                      Int                      @map("RoleId")
+  employeeScheduleId          Int                      @map("EmployeeScheduleId")
+  isOnline                    Boolean                  @map("IsOnline")
+  createdAt                   DateTime?                @map("CreatedAt")
+  updatedAt                   DateTime?                @map("UpdatedAt")
+  paidLeaves                  Float                    @default(dbgenerated("CONVERT([real],(0))"), map: "DF__Users__PaidLeave__7E37BEF6") @map("PaidLeaves") @db.Real
+  profileImageId              Int?                     @map("ProfileImageId")
+  positionId                  Int                      @default(0, map: "DF__Users__PositionI__18EBB532") @map("PositionId")
+  changeScheduleRequests      ChangeScheduleRequests[]
+  changeShiftsAsManager       ChangeShiftRequests[]    @relation("ChangeShiftRequests_ManagerIdToUsers")
+  changeShiftsAsUser          ChangeShiftRequests[]    @relation("ChangeShiftRequests_UserIdToUsers")
+  eslChangeShiftsAsTeamLeader EslChangeShiftRequests[] @relation("ESLChangeShiftRequests_TeamLeaderIdToUsers")
+  eslChangeShiftsAsUser       EslChangeShiftRequests[] @relation("ESLChangeShiftRequests_UserIdToUsers")
+  eslOffsetsAsTeamLeader      EslOffsets[]             @relation("ESLOffsets_TeamLeaderIdToUsers")
+  eslOffsetsAsUser            EslOffsets[]             @relation("ESLOffsets_UserIdToUsers")
+  forms                       Forms[]
+  leavesAsManager             Leaves[]                 @relation("Leaves_ManagerIdToUsers")
+  leavesAsUser                Leaves[]                 @relation("Leaves_UserIdToUsers")
+  multiProjects               MultiProjects[]
+  notifications               Notifications[]
+  overtimesAsManager          Overtimes[]              @relation("Overtimes_ManagerIdToUsers")
+  overtimesAsUser             Overtimes[]              @relation("Overtimes_UserIdToUsers")
+  personalAccessTokens        PersonalAccessTokens[]
+  projectsAsLeader            Projects[]               @relation("Projects_ProjectLeaderIdToUsers")
+  projectsAsSubLeader         Projects[]               @relation("Projects_ProjectSubLeaderIdToUsers")
+  timeEntries                 TimeEntries[]
+  employeeSchedule            EmployeeSchedules        @relation(fields: [employeeScheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Users_EmployeeSchedules_EmployeeScheduleId")
+  media                       Medias?                  @relation(fields: [profileImageId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Users_Medias_ProfileImageId")
+  position                    Positions                @relation(fields: [positionId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Users_Positions_PositionId")
+  role                        Roles                    @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Users_Roles_RoleId")
+
+  @@index([employeeScheduleId], map: "IX_Users_EmployeeScheduleId")
+  @@index([positionId], map: "IX_Users_PositionId")
+  @@index([profileImageId], map: "IX_Users_ProfileImageId")
+  @@index([roleId], map: "IX_Users_RoleId")
+}
+
+model WorkingDayTimes {
+  id                 Int               @id(map: "PK_WorkingDayTimes") @default(autoincrement()) @map("Id")
+  employeeScheduleId Int               @map("EmployeeScheduleId")
+  from               DateTime          @map("From") @db.Time
+  to                 DateTime          @map("To") @db.Time
+  createdAt          DateTime?         @map("CreatedAt")
+  updatedAt          DateTime?         @map("UpdatedAt")
+  day                String?           @map("Day") @db.NVarChar(Max)
+  breakFrom          DateTime          @default(dbgenerated("00:00:00"), map: "DF__WorkingDa__Break__339FAB6E") @map("BreakFrom") @db.Time
+  breakTo            DateTime          @default(dbgenerated("00:00:00"), map: "DF__WorkingDa__Break__3493CFA7") @map("BreakTo") @db.Time
+  employeeSchedule   EmployeeSchedules @relation(fields: [employeeScheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_WorkingDayTimes_EmployeeSchedules_EmployeeScheduleId")
+
+  @@index([employeeScheduleId], map: "IX_WorkingDayTimes_EmployeeScheduleId")
+}
+
+model WorkInterruptions {
+  id                     Int                    @id(map: "PK_WorkInterruptions") @default(autoincrement()) @map("Id")
+  timeEntryId            Int                    @map("TimeEntryId")
+  workInterruptionTypeId Int?                   @map("WorkInterruptionTypeId")
+  otherReason            String?                @map("OtherReason") @db.NVarChar(Max)
+  timeOut                DateTime?              @map("TimeOut") @db.Time
+  timeIn                 DateTime?              @map("TimeIn") @db.Time
+  remarks                String?                @map("Remarks") @db.NVarChar(Max)
+  createdAt              DateTime?              @map("CreatedAt")
+  updatedAt              DateTime?              @map("UpdatedAt")
+  timeEntry              TimeEntries            @relation(fields: [timeEntryId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_WorkInterruptions_TimeEntries_TimeEntryId")
+  workInterruptionType   WorkInterruptionTypes? @relation(fields: [workInterruptionTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_WorkInterruptions_WorkInterruptionTypes_WorkInterruptionTypeId")
+
+  @@index([timeEntryId], map: "IX_WorkInterruptions_TimeEntryId")
+  @@index([workInterruptionTypeId], map: "IX_WorkInterruptions_WorkInterruptionTypeId")
+}
+
+model WorkInterruptionTypes {
+  id                Int                 @id(map: "PK_WorkInterruptionTypes") @default(autoincrement()) @map("Id")
+  name              String?             @map("Name") @db.NVarChar(Max)
+  createdAt         DateTime?           @map("CreatedAt")
+  updatedAt         DateTime?           @map("UpdatedAt")
+  workInterruptions WorkInterruptions[]
 }
