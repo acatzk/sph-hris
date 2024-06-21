@@ -1,7 +1,7 @@
-import { EmployeeSchedules } from './employee_schedules';
+import { EmployeeSchedule } from './employee_schedule';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class WorkingDayTimes {
+export class WorkingDayTime {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -29,6 +29,6 @@ export class WorkingDayTimes {
   @ApiProperty({ type: Date })
   breakTo: Date;
 
-  @ApiProperty({ type: () => EmployeeSchedules })
-  employeeSchedule: EmployeeSchedules;
+  @ApiProperty({ type: () => EmployeeSchedule })
+  employeeSchedule: EmployeeSchedule;
 }

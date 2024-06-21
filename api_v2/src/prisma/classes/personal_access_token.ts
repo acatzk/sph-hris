@@ -1,7 +1,7 @@
-import { Users } from './users';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class PersonalAccessTokens {
+export class PersonalAccessToken {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -20,6 +20,6 @@ export class PersonalAccessTokens {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ type: () => Users })
-  user: Users;
+  @ApiProperty({ type: () => User })
+  user: User;
 }

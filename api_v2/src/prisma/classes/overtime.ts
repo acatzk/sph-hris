@@ -1,10 +1,10 @@
-import { MultiProjects } from './multi_projects';
-import { Notifications } from './notifications';
-import { TimeEntries } from './time_entries';
-import { Users } from './users';
+import { MultiProject } from './multi_project';
+import { Notification } from './notification';
+import { TimeEntry } from './time_entry';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class Overtimes {
+export class Overtime {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -47,18 +47,18 @@ export class Overtimes {
   @ApiPropertyOptional({ type: String })
   managerRemarks?: string;
 
-  @ApiProperty({ isArray: true, type: () => MultiProjects })
-  multiProjects: MultiProjects[];
+  @ApiProperty({ isArray: true, type: () => MultiProject })
+  multiProjects: MultiProject[];
 
-  @ApiProperty({ isArray: true, type: () => Notifications })
-  notifications: Notifications[];
+  @ApiProperty({ isArray: true, type: () => Notification })
+  notifications: Notification[];
 
-  @ApiProperty({ type: () => TimeEntries })
-  timeEntry: TimeEntries;
+  @ApiProperty({ type: () => TimeEntry })
+  timeEntry: TimeEntry;
 
-  @ApiPropertyOptional({ type: () => Users })
-  manager?: Users;
+  @ApiPropertyOptional({ type: () => User })
+  manager?: User;
 
-  @ApiProperty({ type: () => Users })
-  user: Users;
+  @ApiProperty({ type: () => User })
+  user: User;
 }

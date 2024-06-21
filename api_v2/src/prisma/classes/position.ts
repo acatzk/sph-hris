@@ -1,7 +1,7 @@
-import { Leaves } from './leaves';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class LeaveTypes {
+export class Position {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -14,6 +14,6 @@ export class LeaveTypes {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ isArray: true, type: () => Leaves })
-  leaves: Leaves[];
+  @ApiProperty({ isArray: true, type: () => User })
+  users: User[];
 }

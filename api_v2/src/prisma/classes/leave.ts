@@ -1,11 +1,11 @@
-import { LeaveTypes } from './leave_types';
-import { Projects } from './projects';
-import { Users } from './users';
-import { MultiProjects } from './multi_projects';
-import { Notifications } from './notifications';
+import { LeaveType } from './leave_type';
+import { Project } from './project';
+import { User } from './user';
+import { MultiProject } from './multi_project';
+import { Notification } from './notification';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class Leaves {
+export class Leave {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -51,21 +51,21 @@ export class Leaves {
   @ApiProperty({ type: Boolean })
   isDeleted: boolean;
 
-  @ApiProperty({ type: () => LeaveTypes })
-  leaveType: LeaveTypes;
+  @ApiProperty({ type: () => LeaveType })
+  leaveType: LeaveType;
 
-  @ApiPropertyOptional({ type: () => Projects })
-  project?: Projects;
+  @ApiPropertyOptional({ type: () => Project })
+  project?: Project;
 
-  @ApiPropertyOptional({ type: () => Users })
-  manager?: Users;
+  @ApiPropertyOptional({ type: () => User })
+  manager?: User;
 
-  @ApiProperty({ type: () => Users })
-  user: Users;
+  @ApiProperty({ type: () => User })
+  user: User;
 
-  @ApiProperty({ isArray: true, type: () => MultiProjects })
-  multiProjects: MultiProjects[];
+  @ApiProperty({ isArray: true, type: () => MultiProject })
+  multiProjects: MultiProject[];
 
-  @ApiProperty({ isArray: true, type: () => Notifications })
-  notifications: Notifications[];
+  @ApiProperty({ isArray: true, type: () => Notification })
+  notifications: Notification[];
 }

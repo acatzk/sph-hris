@@ -1,12 +1,12 @@
-import { ChangeShiftRequests } from './change_shift_requests';
-import { EslChangeShiftRequests } from './esl_change_shift_requests';
-import { EslOffsets } from './esl_offsets';
-import { Leaves } from './leaves';
-import { Overtimes } from './overtimes';
-import { Users } from './users';
+import { ChangeShiftRequest } from './change_shift_request';
+import { EslChangeShiftRequest } from './esl_change_shift_request';
+import { EslOffset } from './esl_offset';
+import { Leave } from './leave';
+import { Overtime } from './overtime';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class Notifications {
+export class Notification {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -52,21 +52,21 @@ export class Notifications {
   @ApiPropertyOptional({ type: Number })
   relatedEntityId?: number;
 
-  @ApiPropertyOptional({ type: () => ChangeShiftRequests })
-  changeShiftRequest?: ChangeShiftRequests;
+  @ApiPropertyOptional({ type: () => ChangeShiftRequest })
+  changeShiftRequest?: ChangeShiftRequest;
 
-  @ApiPropertyOptional({ type: () => EslChangeShiftRequests })
-  eslChangeShiftRequest?: EslChangeShiftRequests;
+  @ApiPropertyOptional({ type: () => EslChangeShiftRequest })
+  eslChangeShiftRequest?: EslChangeShiftRequest;
 
-  @ApiPropertyOptional({ type: () => EslOffsets })
-  eslOffset?: EslOffsets;
+  @ApiPropertyOptional({ type: () => EslOffset })
+  eslOffset?: EslOffset;
 
-  @ApiPropertyOptional({ type: () => Leaves })
-  leave?: Leaves;
+  @ApiPropertyOptional({ type: () => Leave })
+  leave?: Leave;
 
-  @ApiPropertyOptional({ type: () => Overtimes })
-  overtime?: Overtimes;
+  @ApiPropertyOptional({ type: () => Overtime })
+  overtime?: Overtime;
 
-  @ApiPropertyOptional({ type: () => Users })
-  user?: Users;
+  @ApiPropertyOptional({ type: () => User })
+  user?: User;
 }

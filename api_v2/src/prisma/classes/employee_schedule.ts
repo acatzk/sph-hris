@@ -1,7 +1,8 @@
-import { Users } from './users';
+import { User } from './user';
+import { WorkingDayTime } from './working_day_time';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class Roles {
+export class EmployeeSchedule {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -14,6 +15,9 @@ export class Roles {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ isArray: true, type: () => Users })
-  users: Users[];
+  @ApiProperty({ isArray: true, type: () => User })
+  users: User[];
+
+  @ApiProperty({ isArray: true, type: () => WorkingDayTime })
+  workingDayTimes: WorkingDayTime[];
 }

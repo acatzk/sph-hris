@@ -1,7 +1,7 @@
-import { WorkInterruptions } from './work_interruptions';
+import { WorkInterruption } from './work_interruption';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class WorkInterruptionTypes {
+export class WorkInterruptionType {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -14,6 +14,6 @@ export class WorkInterruptionTypes {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ isArray: true, type: () => WorkInterruptions })
-  workInterruptions: WorkInterruptions[];
+  @ApiProperty({ isArray: true, type: () => WorkInterruption })
+  workInterruptions: WorkInterruption[];
 }

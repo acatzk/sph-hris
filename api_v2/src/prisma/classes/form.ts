@@ -1,7 +1,7 @@
-import { Users } from './users';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class Forms {
+export class Form {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -23,6 +23,6 @@ export class Forms {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ type: () => Users })
-  user: Users;
+  @ApiProperty({ type: () => User })
+  user: User;
 }

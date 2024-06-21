@@ -1,8 +1,8 @@
-import { Times } from './times';
-import { Users } from './users';
+import { Time } from './time';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class Medias {
+export class Media {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -27,9 +27,9 @@ export class Medias {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiPropertyOptional({ type: () => Times })
-  time?: Times;
+  @ApiPropertyOptional({ type: () => Time })
+  time?: Time;
 
-  @ApiProperty({ isArray: true, type: () => Users })
-  users: Users[];
+  @ApiProperty({ isArray: true, type: () => User })
+  users: User[];
 }

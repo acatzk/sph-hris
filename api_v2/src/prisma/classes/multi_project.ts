@@ -1,11 +1,11 @@
-import { ChangeShiftRequests } from './change_shift_requests';
-import { Leaves } from './leaves';
-import { Overtimes } from './overtimes';
-import { Projects } from './projects';
-import { Users } from './users';
+import { ChangeShiftRequest } from './change_shift_request';
+import { Leave } from './leave';
+import { Overtime } from './overtime';
+import { Project } from './project';
+import { User } from './user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class MultiProjects {
+export class MultiProject {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -33,18 +33,18 @@ export class MultiProjects {
   @ApiPropertyOptional({ type: Number })
   changeShiftRequestId?: number;
 
-  @ApiPropertyOptional({ type: () => ChangeShiftRequests })
-  changeShiftRequest?: ChangeShiftRequests;
+  @ApiPropertyOptional({ type: () => ChangeShiftRequest })
+  changeShiftRequest?: ChangeShiftRequest;
 
-  @ApiPropertyOptional({ type: () => Leaves })
-  leave?: Leaves;
+  @ApiPropertyOptional({ type: () => Leave })
+  leave?: Leave;
 
-  @ApiPropertyOptional({ type: () => Overtimes })
-  overtime?: Overtimes;
+  @ApiPropertyOptional({ type: () => Overtime })
+  overtime?: Overtime;
 
-  @ApiPropertyOptional({ type: () => Projects })
-  project?: Projects;
+  @ApiPropertyOptional({ type: () => Project })
+  project?: Project;
 
-  @ApiPropertyOptional({ type: () => Users })
-  user?: Users;
+  @ApiPropertyOptional({ type: () => User })
+  user?: User;
 }

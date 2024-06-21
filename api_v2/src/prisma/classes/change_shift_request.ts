@@ -1,10 +1,10 @@
-import { TimeEntries } from './time_entries';
-import { Users } from './users';
-import { MultiProjects } from './multi_projects';
-import { Notifications } from './notifications';
+import { TimeEntry } from './time_entry';
+import { User } from './user';
+import { MultiProject } from './multi_project';
+import { Notification } from './notification';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ChangeShiftRequests {
+export class ChangeShiftRequest {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -41,18 +41,18 @@ export class ChangeShiftRequests {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ type: () => TimeEntries })
-  timeEntry: TimeEntries;
+  @ApiProperty({ type: () => TimeEntry })
+  timeEntry: TimeEntry;
 
-  @ApiProperty({ type: () => Users })
-  manager: Users;
+  @ApiProperty({ type: () => User })
+  manager: User;
 
-  @ApiProperty({ type: () => Users })
-  user: Users;
+  @ApiProperty({ type: () => User })
+  user: User;
 
-  @ApiProperty({ isArray: true, type: () => MultiProjects })
-  multiProjects: MultiProjects[];
+  @ApiProperty({ isArray: true, type: () => MultiProject })
+  multiProjects: MultiProject[];
 
-  @ApiProperty({ isArray: true, type: () => Notifications })
-  notifications: Notifications[];
+  @ApiProperty({ isArray: true, type: () => Notification })
+  notifications: Notification[];
 }

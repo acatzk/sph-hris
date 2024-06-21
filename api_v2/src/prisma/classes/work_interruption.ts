@@ -1,8 +1,8 @@
-import { TimeEntries } from './time_entries';
-import { WorkInterruptionTypes } from './work_interruption_types';
+import { TimeEntry } from './time_entry';
+import { WorkInterruptionType } from './work_interruption_type';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class WorkInterruptions {
+export class WorkInterruption {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -30,9 +30,9 @@ export class WorkInterruptions {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ type: () => TimeEntries })
-  timeEntry: TimeEntries;
+  @ApiProperty({ type: () => TimeEntry })
+  timeEntry: TimeEntry;
 
-  @ApiPropertyOptional({ type: () => WorkInterruptionTypes })
-  workInterruptionType?: WorkInterruptionTypes;
+  @ApiPropertyOptional({ type: () => WorkInterruptionType })
+  workInterruptionType?: WorkInterruptionType;
 }

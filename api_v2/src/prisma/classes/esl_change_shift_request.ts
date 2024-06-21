@@ -1,10 +1,10 @@
-import { TimeEntries } from './time_entries';
-import { Users } from './users';
-import { EslOffsets } from './esl_offsets';
-import { Notifications } from './notifications';
+import { TimeEntry } from './time_entry';
+import { User } from './user';
+import { EslOffset } from './esl_offset';
+import { Notification } from './notification';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class EslChangeShiftRequests {
+export class EslChangeShiftRequest {
   @ApiProperty({ type: Number })
   id: number;
 
@@ -35,18 +35,18 @@ export class EslChangeShiftRequests {
   @ApiPropertyOptional({ type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ type: () => TimeEntries })
-  timeEntry: TimeEntries;
+  @ApiProperty({ type: () => TimeEntry })
+  timeEntry: TimeEntry;
 
-  @ApiProperty({ type: () => Users })
-  teamLeader: Users;
+  @ApiProperty({ type: () => User })
+  teamLeader: User;
 
-  @ApiProperty({ type: () => Users })
-  user: Users;
+  @ApiProperty({ type: () => User })
+  user: User;
 
-  @ApiProperty({ isArray: true, type: () => EslOffsets })
-  eslOffsets: EslOffsets[];
+  @ApiProperty({ isArray: true, type: () => EslOffset })
+  eslOffsets: EslOffset[];
 
-  @ApiProperty({ isArray: true, type: () => Notifications })
-  notifications: Notifications[];
+  @ApiProperty({ isArray: true, type: () => Notification })
+  notifications: Notification[];
 }
