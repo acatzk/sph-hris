@@ -39,7 +39,11 @@ import { BullModule } from '@nestjs/bull';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useFactory: () => ({
-        autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
+        typePaths: ['./src/graphql/schema.gql'],
+        definitions: {
+          path: join(process.cwd(), 'src/graphql/graphql.ts'),
+          outputAs: 'class',
+        },
       }),
     }),
     ScheduleModule.forRoot(),
