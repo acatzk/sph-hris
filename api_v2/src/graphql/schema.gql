@@ -1,7 +1,1015 @@
-# ------------------------------------------------------
-# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
-# ------------------------------------------------------
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: SubscriptionObjectType
+}
+
+type ChangeScheduleRequest {
+  id: Int!
+  userId: Int!
+  isManagerApproved: Boolean
+  isLeaderApproved: Boolean
+  data: String!
+  user: User!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ChangeShiftDTO {
+  timeIn: String!
+  timeOut: String!
+  id: Int!
+  userId: Int!
+  timeEntryId: Int!
+  managerId: Int!
+  otherProject: String
+  description: String!
+  isManagerApproved: Boolean
+  isLeaderApproved: Boolean
+  user: User!
+  manager: User!
+  timeEntry: TimeEntry!
+  multiProjects: [MultiProject!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ChangeShiftNotification {
+  changeShiftRequestId: Int!
+  changeShiftRequest: ChangeShiftRequest!
+  id: Int!
+  recipientId: Int
+  relatedEntityId: Int
+  type: String!
+  data: String!
+  readAt: DateTime
+  isRead: Boolean!
+  recipient: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ChangeShiftRequest {
+  id: Int!
+  userId: Int!
+  timeEntryId: Int!
+  managerId: Int!
+  timeIn: TimeSpan!
+  timeOut: TimeSpan!
+  otherProject: String
+  description: String!
+  isManagerApproved: Boolean
+  isLeaderApproved: Boolean
+  user: User!
+  manager: User!
+  timeEntry: TimeEntry!
+  multiProjects: [MultiProject!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Day {
+  isDaySelected: Boolean
+  workingDay: String
+  timeIn: String
+  timeOut: String
+  breakFrom: String
+  breakTo: String
+}
+
+type ESLChangeShiftDTO {
+  timeIn: String!
+  timeOut: String!
+  id: Int!
+  userId: Int!
+  timeEntryId: Int!
+  teamLeaderId: Int!
+  description: String!
+  isLeaderApproved: Boolean
+  user: User!
+  teamLeader: User!
+  timeEntry: TimeEntry!
+  eslOffsets: [ESLOffset!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ESLChangeShiftNotification {
+  eslChangeShiftRequestId: Int!
+  eslChangeShiftRequest: ESLChangeShiftRequest!
+  id: Int!
+  recipientId: Int
+  relatedEntityId: Int
+  type: String!
+  data: String!
+  readAt: DateTime
+  isRead: Boolean!
+  recipient: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ESLChangeShiftRequest {
+  id: Int!
+  userId: Int!
+  timeEntryId: Int!
+  teamLeaderId: Int!
+  timeIn: TimeSpan!
+  timeOut: TimeSpan!
+  description: String!
+  isLeaderApproved: Boolean
+  user: User!
+  teamLeader: User!
+  timeEntry: TimeEntry!
+  eslOffsets: [ESLOffset!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ESLOffset {
+  id: Int!
+  userId: Int!
+  timeEntryId: Int!
+  teamLeaderId: Int!
+  eslChangeShiftRequestId: Int
+  timeIn: TimeSpan!
+  timeOut: TimeSpan!
+  title: String!
+  description: String!
+  isLeaderApproved: Boolean
+  isUsed: Boolean!
+  user: User!
+  teamLeader: User!
+  timeEntry: TimeEntry!
+  eslChangeShiftRequest: ESLChangeShiftRequest!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ESLOffsetDTO {
+  timeIn: String!
+  timeOut: String!
+  id: Int!
+  userId: Int!
+  timeEntryId: Int!
+  teamLeaderId: Int!
+  eslChangeShiftRequestId: Int
+  title: String!
+  description: String!
+  isLeaderApproved: Boolean
+  isUsed: Boolean!
+  user: User!
+  teamLeader: User!
+  timeEntry: TimeEntry!
+  eslChangeShiftRequest: ESLChangeShiftRequest!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ESLOffsetNotification {
+  eslOffsetId: Int!
+  eslOffset: ESLOffset!
+  id: Int!
+  recipientId: Int
+  relatedEntityId: Int
+  type: String!
+  data: String!
+  readAt: DateTime
+  isRead: Boolean!
+  recipient: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type EmployeeSchedule {
+  id: Int!
+  name: String
+  users: [User!]!
+  workingDayTimes: [WorkingDayTime!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type EmployeeScheduleDTO {
+  id: Int
+  scheduleName: String
+  days: [Day!]!
+  memberCount: Int!
+  employeeScheduleId: Int!
+  day: String
+  from: TimeSpan!
+  to: TimeSpan!
+  breakFrom: TimeSpan!
+  breakTo: TimeSpan!
+  employeeSchedule: EmployeeSchedule!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type File {
+  mimeType: String!
+  link: String!
+  fileName: String!
+}
+
+type HeatMapDTO {
+  leaveValue(leaveType: Int!): Int!
+  day: Int!
+  value: Int!
+  leaveName: String
+}
+
+type Leave {
+  id: Int!
+  userId: Int!
+  leaveTypeId: Int!
+  managerId: Int
+  otherProject: String
+  reason: String
+  leaveDate: DateTime!
+  days: Float!
+  isWithPay: Boolean!
+  isLeaderApproved: Boolean
+  isManagerApproved: Boolean
+  isDeleted: Boolean!
+  leaveProjects: [MultiProject!]!
+  leaveType: LeaveType!
+  manager: User!
+  user: User!
+  leaveNotifications: [LeaveNotification!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LeaveBreakdownDTO {
+  sickLeave: Int!
+  undertime: Int!
+  vacationLeave: Int!
+  emergencyLeave: Int!
+  bereavementLeave: Int!
+  maternityLeave: Int!
+  withoutPayTotal: Int!
+  withPayTotal: Int!
+  pending: Int!
+}
+
+type LeaveDTO {
+  userId: Int
+  avatar: String
+  userName: String
+  userRole: String
+  leaveType: String
+  manager: String
+  reason: String
+  leaveDate: DateTime
+  isWithPay: Boolean
+  isLeaderApproved: Boolean
+  isManagerApproved: Boolean
+  days: Float
+  createdAt: DateTime
+  id: Int!
+  leaveTypeId: Int!
+  managerId: Int
+  otherProject: String
+  isDeleted: Boolean!
+  leaveProjects: [MultiProject!]!
+  user: User!
+  leaveNotifications: [LeaveNotification!]!
+  updatedAt: DateTime
+}
+
+type LeaveHeatMapDTO {
+  january: [HeatMapDTO!]!
+  february: [HeatMapDTO!]!
+  march: [HeatMapDTO!]!
+  april: [HeatMapDTO!]!
+  may: [HeatMapDTO!]!
+  june: [HeatMapDTO!]!
+  july: [HeatMapDTO!]!
+  august: [HeatMapDTO!]!
+  september: [HeatMapDTO!]!
+  october: [HeatMapDTO!]!
+  november: [HeatMapDTO!]!
+  december: [HeatMapDTO!]!
+}
+
+type LeaveNotification {
+  leaveId: Int!
+  leave: Leave!
+  id: Int!
+  recipientId: Int
+  relatedEntityId: Int
+  type: String!
+  data: String!
+  readAt: DateTime
+  isRead: Boolean!
+  recipient: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LeaveType {
+  id: Int!
+  name: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LeavesDTO {
+  heatmap: LeaveHeatMapDTO!
+  table: [LeavesTableDTO!]!
+  breakdown: LeaveBreakdownDTO!
+  user: User
+  totalNumberOfFiledLeaves: Float
+}
+
+type LeavesTableDTO {
+  date: DateTime
+  createdAt: DateTime
+  leaveTypeId: Int!
+  isWithPay: Boolean!
+  reason: String
+  status: String
+  numLeaves: Float!
+  userName: String
+  leaveName: String
+  isLeaderApproved: Boolean
+  isManagerApproved: Boolean
+  leaveId: Int!
+  userId: Int!
+}
+
+type Media {
+  id: Int!
+  collectionName: String
+  name: String
+  fileName: String
+  mimeType: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MultiProject {
+  id: Int!
+  type: String!
+  projectId: Int
+  projectLeaderId: Int
+  leaveId: Int
+  overtimeId: Int
+  changeShiftRequestId: Int
+  project: Project!
+  projectLeader: User!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Mutation {
+  updateTimeIn(timeIn: TimeInRequestInput!): String!
+  updateTimeOut(timeOut: TimeOutRequestInput!): String!
+  createSignIn: String!
+  logout(logOut: LogoutRequestInput!): String!
+  createWorkInterruption(interruption: CreateInterruptionRequestInput!): WorkInterruptionDTO!
+  updateWorkInterruption(interruption: UpdateInterruptionRequestInput!): Boolean!
+  deleteWorkInterruption(id: Int!): Boolean!
+  updateOneTimeEntry(updatedTimeEntry: UpdateTimeEntryInput!): String!
+  createLeave(leave: CreateLeaveRequestInput!): [Leave!]!
+  updateLeave(leave: UpdateLeaveRequestInput!): String
+  cancelLeave(request: CancelLeaveRequestInput!): String!
+  readNotification(notification: NotificationRequestInput!): String!
+  isReadAll(id: Int!): [Notification!]!
+  createOvertime(overtime: CreateOvertimeRequestInput!): Overtime!
+  createSummarizedOvertime(overtimeSummary: CreateSummaryRequestInput!): String!
+  createBulkOvertime(request: CreateBulkOvertimeRequestInput!): [Overtime!]!
+  approveDisapproveOvertime(approvingData: ApproveOvertimeRequestInput!): Boolean!
+  approveDisapproveAllOvertimeSummary(approvingDatas: ApproveOvertimeSummaryRequestInput!): String!
+  approveDisapproveLeave(approvingData: ApproveLeaveUndertimeRequestInput!): Boolean!
+  approveDisapproveUndertime(approvingData: ApproveLeaveUndertimeRequestInput!): Boolean!
+  approveDisapproveChangeShift(approvingData: ApproveChangeShiftRequestInput!): Boolean!
+  createChangeShift(request: CreateChangeShiftRequestInput!): ChangeShiftRequest!
+  createESLChangeShift(request: CreateESLChangeShiftRequestInput!): ESLChangeShiftRequest!
+  approveDisapproveESLChangeShiftStatus(request: ApproveESLChangeShiftRequestInput!): ESLChangeShiftRequest!
+  createESLOffset(request: CreateESLOffsetRequestInput!): ESLOffset!
+  approveDisapproveChangeOffsetStatus(request: ApproveESLChangeShiftRequestInput!): ESLOffset!
+  createEmployeeSchedule(request: CreateEmployeeScheduleRequestInput!): String!
+  updateEmployeeSchedule(request: UpdateEmployeeScheduleRequestInput!): String!
+  addMembersToSchedule(request: AddMemberToScheduleRequestInput!): String!
+  updateMemberSchedule(request: UpdateMemberScheduleRequestInput!): String!
+  deleteEmployeeSchedule(request: DeleteEmployeeScheduleRequestInput!): String!
+  changeScheduleRequest(request: ChangeSchedRequestInput!): ChangeScheduleRequest!
+  addNewEmployee(request: AddNewEmployeeRequestInput!): Boolean!
+}
+
+type MyOvertimeDTO {
+  id: Int!
+  projects: [MultiProject!]!
+  otherProject: String
+  supervisor: String!
+  dateFiled: DateTime
+  remarks: String!
+  overtimeDate: DateTime
+  requestedMinutes: Int
+  approvedMinutes: Int
+  isLeaderApproved: Boolean
+  isManagerApproved: Boolean
+  userId: Int!
+  managerId: Int
+  timeEntryId: Int!
+  managerRemarks: String
+  multiProjects: [MultiProject!]!
+  manager: User!
+  user: User!
+  timeEntry: TimeEntry!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Notification {
+  id: Int!
+  recipientId: Int
+  relatedEntityId: Int
+  type: String!
+  data: String!
+  readAt: DateTime
+  isRead: Boolean!
+  recipient: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Over {
+  id: Int!
+  link: String!
+  name: String!
+  roleId: Int!
+  roleName: String!
+}
+
+type Overtime {
+  id: Int!
+  userId: Int!
+  managerId: Int
+  timeEntryId: Int!
+  otherProject: String
+  remarks: String
+  overtimeDate: DateTime!
+  requestedMinutes: Int!
+  approvedMinutes: Int
+  isLeaderApproved: Boolean
+  isManagerApproved: Boolean
+  managerRemarks: String
+  multiProjects: [MultiProject!]!
+  manager: User!
+  user: User!
+  timeEntry: TimeEntry!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type OvertimeDTO {
+  user: Over
+  id: Int!
+  projects: [MultiProject!]!
+  otherProject: String
+  supervisor: String!
+  dateFiled: DateTime
+  remarks: String!
+  overtimeDate: DateTime
+  approvedMinutes: Int
+  isLeaderApproved: Boolean
+  isManagerApproved: Boolean
+  managerRemarks: String
+  userId: Int!
+  managerId: Int
+  timeEntryId: Int!
+  requestedMinutes: Int!
+  multiProjects: [MultiProject!]!
+  manager: User!
+  timeEntry: TimeEntry!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type OvertimeNotification {
+  overtimeId: Int!
+  overtime: Overtime!
+  id: Int!
+  recipientId: Int
+  relatedEntityId: Int
+  type: String!
+  data: String!
+  readAt: DateTime
+  isRead: Boolean!
+  recipient: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Position {
+  id: Int!
+  name: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Project {
+  id: Int!
+  projectLeaderId: Int
+  projectSubLeaderId: Int
+  name: String!
+  projectLeader: User
+  projectSubLeader: User
+  leaves: [Leave!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
 
 type Query {
   getHello: String!
+  userById: UserDTO
+  userByEmail(email: String!): UserDTO
+  allUsers: [User!]!
+  allESLUsers(exceptUserId: Int): [User!]!
+  timeById(id: Int!): SpecificTimeDTO
+  specificTimeEntryById(id: Int!): TimeEntry
+  specificUserProfileDetail(id: Int!): UserDTO
+  timeEntriesByEmployeeId(id: Int!): [TimeEntryDTO!]
+  timeEntries(date: String status: String): [TimeEntryDTO!]!
+  timesheetSummary(startDate: String endDate: String): [TimeEntriesSummaryDTO!]!
+  allWorkInterruptionTypes: [WorkInterruptionType!]!
+  interruptionsByTimeEntryId(interruption: ShowInterruptionRequestInput!): [WorkInterruptionDTO!]!
+  allLeaves: [LeaveDTO!]!
+  leaveTypes: [LeaveType!]!
+  leaves(userId: Int! year: Int! leaveTypeId: Int!): LeavesDTO!
+  leavesByDate(userId: Int! date: String!): LeavesDTO!
+  yearlyAllLeaves(year: Int! leaveTypeId: Int!): LeavesDTO!
+  yearlyAllLeavesByDate(date: String!): LeavesDTO!
+  paidLeaves(id: Int!): Float!
+  userLeave(leaveId: Int!): [LeaveDTO!]!
+  projects: [Project!]!
+  allLeaders(projectId: Int): [User!]!
+  notificationByRecipientId(id: Int!): [Notification!]!
+  overtime(userId: Int!): [MyOvertimeDTO!]!
+  allOvertime: [OvertimeDTO!]!
+  changeShiftByTimeEntry(timeEntryId: Int!): ChangeShiftRequest!
+  eslOffsetsByTimeEntry(timeEntryId: Int! onlyUnused: Boolean! = false): [ESLOffsetDTO!]!
+  allESLOffsets(isUsed: Boolean): [ESLOffsetDTO!]!
+  eslChangeShiftByTimeEntry(timeEntryId: Int!): ESLChangeShiftRequest!
+  allEmployeeScheduleDetails: [EmployeeScheduleDTO!]!
+  employeeScheduleDetails(employeeScheduleId: Int!): [EmployeeScheduleDTO!]!
+  employeesBySchedule(employeeScheduleId: Int!): [UserDTO!]!
+  employeeChangeScheduleRequest(userId: Int!): [ChangeScheduleRequest!]
+  searchEmployeesBySchedule(request: SearchEmployeesByScheduleRequestInput!): [UserDTO!]!
 }
+
+type Role {
+  id: Int!
+  name: String
+  users: [User!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type SpecificTimeDTO {
+  media: [File!]
+  id: Int!
+  timeHour: TimeSpan
+  remarks: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type SubscriptionObjectType {
+  subscribeAllLeave: Leave!
+  overtimeSummaryCreated(id: Int!): Notification!
+  leaveCreated(id: Int!): LeaveNotification!
+  overtimeCreated(id: Int!): OvertimeNotification!
+  changeShiftCreated(id: Int!): ChangeShiftNotification!
+  eslChangeShiftCreated(id: Int!): ESLChangeShiftNotification!
+  eslOffsetCreated(id: Int!): ESLOffsetNotification!
+  notificationCreated(id: Int!): Notification!
+}
+
+type Time {
+  id: Int!
+  timeHour: TimeSpan!
+  remarks: String
+  media: [Media!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TimeDTO {
+  timeHour: String
+  id: Int!
+  remarks: String
+  media: [Media!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TimeEntriesSummaryDTO {
+  user: UserDTO!
+  leave: Float!
+  absences: Int!
+  late: Int
+  undertime: Int
+  overtime: Int
+}
+
+type TimeEntry {
+  id: Int!
+  userId: Int!
+  timeInId: Int
+  timeOutId: Int
+  startTime: TimeSpan!
+  endTime: TimeSpan!
+  breakStartTime: TimeSpan!
+  breakEndTime: TimeSpan!
+  date: DateTime!
+  workedHours: String
+  trackedHours: TimeSpan!
+  user: User!
+  timeIn: Time
+  timeOut: Time
+  overtime: Overtime
+  changeShiftRequest: ChangeShiftRequest
+  workInterruptions: [WorkInterruption!]!
+  eslOffsets: [ESLOffset!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TimeEntryDTO {
+  user: UserDTO!
+  startTime: String
+  endTime: String
+  workedHours: String
+  trackedHours: String
+  timeIn: TimeDTO
+  timeOut: TimeDTO
+  date: Date!
+  late: Int!
+  undertime: Int!
+  status: String!
+  isLeaderApproved: Boolean
+  changeShift: ChangeShiftDTO
+  eslChangeShift: ESLChangeShiftDTO
+  id: Int!
+  userId: Int!
+  timeInId: Int
+  timeOutId: Int
+  breakStartTime: TimeSpan!
+  breakEndTime: TimeSpan!
+  overtime: Overtime
+  changeShiftRequest: ChangeShiftRequest
+  workInterruptions: [WorkInterruption!]!
+  eslOffsets: [ESLOffset!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type User {
+  id: Int!
+  name: String
+  email: String
+  roleId: Int!
+  positionId: Int!
+  employeeScheduleId: Int!
+  paidLeaves: Float!
+  isOnline: Boolean!
+  profileImageId: Int
+  role: Role!
+  position: Position!
+  employeeSchedule: EmployeeSchedule!
+  timeEntries: [TimeEntry!]!
+  overtimes: [Overtime!]!
+  profileImage: Media
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type UserDTO {
+  timeEntry: TimeEntry
+  avatarLink: String
+  id: Int!
+  name: String
+  email: String
+  roleId: Int!
+  positionId: Int!
+  employeeScheduleId: Int!
+  paidLeaves: Float!
+  isOnline: Boolean!
+  profileImageId: Int
+  role: Role!
+  position: Position!
+  employeeSchedule: EmployeeSchedule!
+  timeEntries: [TimeEntry!]!
+  overtimes: [Overtime!]!
+  profileImage: Media
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type WorkInterruption {
+  id: Int!
+  timeEntryId: Int!
+  workInterruptionTypeId: Int
+  otherReason: String
+  timeOut: TimeSpan
+  timeIn: TimeSpan
+  remarks: String
+  workInterruptionType: WorkInterruptionType
+  timeEntry: TimeEntry
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type WorkInterruptionDTO {
+  timeOut: String
+  timeIn: String
+  id: Int!
+  timeEntryId: Int!
+  workInterruptionTypeId: Int
+  otherReason: String
+  remarks: String
+  workInterruptionType: WorkInterruptionType
+  timeEntry: TimeEntry
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type WorkInterruptionType {
+  id: Int!
+  name: String
+  workInterruption: [WorkInterruption!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type WorkingDayTime {
+  id: Int!
+  employeeScheduleId: Int!
+  day: String
+  from: TimeSpan!
+  to: TimeSpan!
+  breakFrom: TimeSpan!
+  breakTo: TimeSpan!
+  employeeSchedule: EmployeeSchedule!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input AddMemberToScheduleRequestInput {
+  userId: Int!
+  employeeIds: [Int!]!
+  scheduleId: Int!
+}
+
+input AddNewEmployeeRequestInput {
+  email: String!
+  positionId: Int!
+  roleId: Int!
+  scheduleId: Int
+  firstName: String!
+  middleName: String
+  lastName: String!
+}
+
+input ApproveChangeShiftRequestInput {
+  userId: Int!
+  notificationId: Int!
+  isApproved: Boolean!
+}
+
+input ApproveESLChangeShiftRequestInput {
+  teamLeaderId: Int!
+  notificationId: Int!
+  isApproved: Boolean!
+}
+
+input ApproveLeaveUndertimeRequestInput {
+  userId: Int!
+  notificationId: Int!
+  isApproved: Boolean!
+}
+
+input ApproveOvertimeRequestInput {
+  userId: Int!
+  overtimeId: Int
+  notificationId: Int
+  approvedMinutes: Int
+  isApproved: Boolean!
+  managerRemarks: String
+}
+
+input ApproveOvertimeSummaryRequestInput {
+  approveOvertimeRequests: [ApproveOvertimeRequestInput!]!
+}
+
+input CancelLeaveRequestInput {
+  userId: Int!
+  leaveId: Int!
+}
+
+input ChangeSchedRequestInput {
+  leaderIds: [Int!]!
+  workingDays: [WorkingDayTimesRequestInput!]!
+}
+
+input CreateBulkOvertimeRequestInput {
+  managerId: Int!
+  otherProject: String
+  requestedMinutes: Int!
+  remarks: String!
+  date: String!
+  employeeIds: [Int!]!
+  projectId: Int!
+}
+
+input CreateChangeShiftRequestInput {
+  userId: Int!
+  timeEntryId: Int!
+  managerId: Int!
+  timeIn: String!
+  timeOut: String!
+  otherProject: String
+  description: String!
+  projects: [MultiProjectRequestInput!]!
+}
+
+input CreateESLChangeShiftRequestInput {
+  userId: Int!
+  timeEntryId: Int!
+  teamLeaderId: Int!
+  timeIn: String!
+  timeOut: String!
+  description: String!
+  eslOffsetIDs: [Int!]!
+}
+
+input CreateESLOffsetRequestInput {
+  userId: Int!
+  timeEntryId: Int!
+  teamLeaderId: Int!
+  timeIn: String!
+  timeOut: String!
+  title: String!
+  description: String!
+}
+
+input CreateEmployeeScheduleRequestInput {
+  userId: Int!
+  scheduleName: String
+  workingDays: [WorkingDayTimesRequestInput!]!
+}
+
+input CreateInterruptionRequestInput {
+  timeEntryId: Int!
+  workInterruptionTypeId: Int!
+  timeOut: String
+  timeIn: String
+  remarks: String
+  otherReason: String
+}
+
+input CreateLeaveRequestInput {
+  userId: Int!
+  leaveTypeId: Int!
+  managerId: Int!
+  otherProject: String
+  reason: String
+  leaveProjects: [MultiProjectRequestInput!]!
+  leaveDates: [LeaveDateRequestInput!]!
+}
+
+input CreateOvertimeRequestInput {
+  userId: Int!
+  managerId: Int!
+  timeEntryId: Int!
+  otherProject: String
+  requestedMinutes: Int!
+  remarks: String
+  date: String!
+  overtimeProjects: [MultiProjectRequestInput!]!
+}
+
+input CreateSummaryRequestInput {
+  startDate: String!
+  endDate: String!
+}
+
+input DeleteEmployeeScheduleRequestInput {
+  userId: Int!
+  employeeScheduleId: Int!
+}
+
+input LeaveDateRequestInput {
+  leaveDate: String!
+  isWithPay: Boolean!
+  days: Float!
+}
+
+input LogoutRequestInput {
+  token: String!
+}
+
+input MultiProjectRequestInput {
+  projectId: Int!
+  projectLeaderId: Int!
+}
+
+input NotificationRequestInput {
+  id: Int!
+  readAt: DateTime
+}
+
+input SearchEmployeesByScheduleRequestInput {
+  employeeScheduleId: Int!
+  searchKey: String!
+}
+
+input ShowInterruptionRequestInput {
+  timeEntryId: Int!
+}
+
+input TimeInRequestInput {
+  id: Int!
+  userId: Int!
+  timeHour: TimeSpan!
+  date: DateTime!
+  startTime: TimeSpan!
+  endTime: TimeSpan!
+  remarks: String
+  files: [Upload!]
+}
+
+input TimeOutRequestInput {
+  userId: Int!
+  timeEntryId: Int
+  timeHour: TimeSpan!
+  remarks: String
+  workedHours: String
+}
+
+input UpdateEmployeeScheduleRequestInput {
+  userId: Int!
+  employeeScheduleId: Int!
+  scheduleName: String
+  workingDays: [WorkingDayTimesRequestInput!]!
+}
+
+input UpdateInterruptionRequestInput {
+  id: Int!
+  workInterruptionTypeId: Int!
+  timeOut: String
+  timeIn: String
+  remarks: String
+  otherReason: String
+}
+
+input UpdateLeaveRequestInput {
+  userId: Int!
+  leaveTypeId: Int!
+  leaveId: Int!
+  managerId: Int!
+  otherProject: String
+  reason: String
+  leaveProjects: [MultiProjectRequestInput!]!
+  leaveDates: [LeaveDateRequestInput!]!
+}
+
+input UpdateMemberScheduleRequestInput {
+  userId: Int!
+  employeeId: Int!
+  scheduleId: Int!
+}
+
+input UpdateTimeEntryInput {
+  userId: Int!
+  timeEntryId: Int!
+  timeIn: String
+  timeOut: String
+}
+
+input WorkingDayTimesRequestInput {
+  day: String
+  from: String
+  to: String
+  breakFrom: String
+  breakTo: String
+}
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `Date` scalar represents an ISO-8601 compliant date type."
+scalar Date
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+"The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
+scalar TimeSpan
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
