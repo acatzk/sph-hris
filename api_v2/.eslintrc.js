@@ -23,6 +23,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
   },
   ignorePatterns: [
-    'src/prisma/classes/index.ts'
+    'src/prisma/classes/index.ts',
+    'src/graphql/graphql.ts'
   ]
 };
