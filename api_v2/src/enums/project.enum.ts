@@ -1,4 +1,4 @@
-export enum ProjectId {
+export enum ProjectIdEnum {
   OTHER_PROJECT = 17,
   OJT = 7,
 }
