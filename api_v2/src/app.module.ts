@@ -17,6 +17,7 @@ import slackConfig from 'config/slack.config';
 import { CacheModule } from '@nestjs/cache-manager';
 import hrisApiConfig from 'config/hris-api.config';
 import { BullModule } from '@nestjs/bull';
+import { SignInModule } from './sign-in/sign-in.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { BullModule } from '@nestjs/bull';
     SlackModule,
     HrisApiModule,
     AuthTokenModule,
+    SignInModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
