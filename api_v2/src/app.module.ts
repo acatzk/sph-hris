@@ -18,6 +18,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import hrisApiConfig from 'config/hris-api.config';
 import { BullModule } from '@nestjs/bull';
 import { SignInModule } from './sign-in/sign-in.module';
+import { LogoutModule } from './logout/logout.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
 
@@ -73,6 +74,7 @@ import { graphqlUploadExpress } from 'graphql-upload-ts';
     HrisApiModule,
     AuthTokenModule,
     SignInModule,
+    LogoutModule,
     FileUploadModule,
   ],
   controllers: [AppController],
