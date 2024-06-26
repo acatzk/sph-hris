@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -18,6 +18,8 @@ import { CacheModule } from '@nestjs/cache-manager';
 import hrisApiConfig from 'config/hris-api.config';
 import { BullModule } from '@nestjs/bull';
 import { SignInModule } from './sign-in/sign-in.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
+import { graphqlUploadExpress } from 'graphql-upload-ts';
 
 @Module({
   imports: [
@@ -71,8 +73,13 @@ import { SignInModule } from './sign-in/sign-in.module';
     HrisApiModule,
     AuthTokenModule,
     SignInModule,
+    FileUploadModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(graphqlUploadExpress()).forRoutes('graphql');
+  }
+}
