@@ -18,6 +18,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import hrisApiConfig from 'config/hris-api.config';
 import { BullModule } from '@nestjs/bull';
 import { SignInModule } from './sign-in/sign-in.module';
+import { LogoutModule } from './logout/logout.module';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { SignInModule } from './sign-in/sign-in.module';
     HrisApiModule,
     AuthTokenModule,
     SignInModule,
+    LogoutModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
