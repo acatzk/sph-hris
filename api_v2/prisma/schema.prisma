@@ -31,6 +31,7 @@ model ChangeScheduleRequest {
   user              User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ChangeScheduleRequests_Users_UserId")
 
   @@index([userId], map: "IX_ChangeScheduleRequests_UserId")
+  @@map("ChangeScheduleRequests")
 }
 
 model ChangeShiftRequest {
@@ -54,6 +55,7 @@ model ChangeShiftRequest {
 
   @@index([managerId], map: "IX_ChangeShiftRequests_ManagerId")
   @@index([userId], map: "IX_ChangeShiftRequests_UserId")
+  @@map("ChangeShiftRequests")
 }
 
 model EmployeeSchedule {
@@ -63,6 +65,8 @@ model EmployeeSchedule {
   updatedAt       DateTime?        @map("UpdatedAt")
   users           User[]
   workingDayTimes WorkingDayTime[]
+
+  @@map("EmployeeSchedules")
 }
 
 model EslChangeShiftRequest {
@@ -126,6 +130,7 @@ model Form {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Forms_Users_UserId")
 
   @@index([userId], map: "IX_Forms_UserId")
+  @@map("Forms")
 }
 
 model Leave {
@@ -155,6 +160,7 @@ model Leave {
   @@index([managerId], map: "IX_Leaves_ManagerId")
   @@index([projectId], map: "IX_Leaves_ProjectId")
   @@index([userId], map: "IX_Leaves_UserId")
+  @@map("Leaves")
 }
 
 model LeaveType {
@@ -163,6 +169,8 @@ model LeaveType {
   createdAt DateTime? @map("CreatedAt")
   updatedAt DateTime? @map("UpdatedAt")
   leaves    Leave[]
+
+  @@map("LeaveTypes")
 }
 
 model Media {
@@ -178,6 +186,7 @@ model Media {
   users          User[]
 
   @@index([timeId], map: "IX_Medias_TimeId")
+  @@map("Medias")
 }
 
 model MultiProject {
@@ -201,6 +210,7 @@ model MultiProject {
   @@index([overtimeId], map: "IX_MultiProjects_OvertimeId")
   @@index([projectId], map: "IX_MultiProjects_ProjectId")
   @@index([projectLeaderId], map: "IX_MultiProjects_ProjectLeaderId")
+  @@map("MultiProjects")
 }
 
 model Notification {
@@ -232,6 +242,7 @@ model Notification {
   @@index([leaveId], map: "IX_Notifications_LeaveId")
   @@index([overtimeId], map: "IX_Notifications_OvertimeId")
   @@index([recipientId], map: "IX_Notifications_RecipientId")
+  @@map("Notifications")
 }
 
 model Overtime {
@@ -257,6 +268,7 @@ model Overtime {
 
   @@index([managerId], map: "IX_Overtimes_ManagerId")
   @@index([userId], map: "IX_Overtimes_UserId")
+  @@map("Overtimes")
 }
 
 model PersonalAccessToken {
@@ -278,6 +290,8 @@ model Position {
   createdAt DateTime? @map("CreatedAt")
   updatedAt DateTime? @map("UpdatedAt")
   users     User[]
+
+  @@map("Positions")
 }
 
 model Project {
@@ -294,6 +308,7 @@ model Project {
 
   @@index([projectLeaderId], map: "IX_Projects_ProjectLeaderId")
   @@index([projectSubLeaderId], map: "IX_Projects_ProjectSubLeaderId")
+  @@map("Projects")
 }
 
 model Role {
@@ -302,6 +317,8 @@ model Role {
   createdAt DateTime? @map("CreatedAt")
   updatedAt DateTime? @map("UpdatedAt")
   users     User[]
+
+  @@map("Roles")
 }
 
 model TimeEntry {
@@ -330,6 +347,7 @@ model TimeEntry {
   @@index([timeInId], map: "IX_TimeEntries_TimeInId")
   @@index([timeOutId], map: "IX_TimeEntries_TimeOutId")
   @@index([userId], map: "IX_TimeEntries_UserId")
+  @@map("TimeEntries")
 }
 
 model Time {
@@ -341,6 +359,8 @@ model Time {
   medias               Media[]
   timeEntriesAsTimeIn  TimeEntry[] @relation("TimeEntries_TimeInIdToTimes")
   timeEntriesAsTimeOut TimeEntry[] @relation("TimeEntries_TimeOutIdToTimes")
+
+  @@map("Times")
 }
 
 model User {
@@ -382,6 +402,7 @@ model User {
   @@index([positionId], map: "IX_Users_PositionId")
   @@index([profileImageId], map: "IX_Users_ProfileImageId")
   @@index([roleId], map: "IX_Users_RoleId")
+  @@map("Users")
 }
 
 model WorkingDayTime {
@@ -397,6 +418,7 @@ model WorkingDayTime {
   employeeSchedule   EmployeeSchedule @relation(fields: [employeeScheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_WorkingDayTimes_EmployeeSchedules_EmployeeScheduleId")
 
   @@index([employeeScheduleId], map: "IX_WorkingDayTimes_EmployeeScheduleId")
+  @@map("WorkingDayTimes")
 }
 
 model WorkInterruption {
@@ -414,6 +436,7 @@ model WorkInterruption {
 
   @@index([timeEntryId], map: "IX_WorkInterruptions_TimeEntryId")
   @@index([workInterruptionTypeId], map: "IX_WorkInterruptions_WorkInterruptionTypeId")
+  @@map("WorkInterruptions")
 }
 
 model WorkInterruptionType {
@@ -422,4 +445,6 @@ model WorkInterruptionType {
   createdAt         DateTime?          @map("CreatedAt")
   updatedAt         DateTime?          @map("UpdatedAt")
   workInterruptions WorkInterruption[]
+
+  @@map("WorkInterruptionTypes")
 }

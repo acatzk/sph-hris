@@ -1,3 +1,12 @@
+export const getLatestPreviousTimeEntry = (userId: number) => `
+  query {
+    latestPreviousTimeEntry(id: ${userId}) {
+      timeInId
+      timeOutId
+    }
+  }
+`;
+
 export const getTimeEntriesQuery = (dateToday: string) => `
   query {
     timeEntries(date: "${dateToday}") {

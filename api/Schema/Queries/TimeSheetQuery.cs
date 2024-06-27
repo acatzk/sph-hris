@@ -24,6 +24,11 @@ namespace api.Schema.Queries
             return await _timeSheetService.GetSpecificTimeEntryById(id);
         }
 
+        public async Task<TimeEntry?> GetLatestPreviousTimeEntry(int id)
+        {
+            return await _timeSheetService.GetLatestPreviousTimeEntry(id);
+        }
+
         public async Task<UserDTO?> GetSpecificUserProfileDetail(int id)
         {
             return await _timeSheetService.GetSpecificUserProfileDetail(id);

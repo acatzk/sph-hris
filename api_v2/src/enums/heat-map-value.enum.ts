@@ -1,0 +1,9 @@
+export enum HeatmapValueEnum {
+  UNDERTIME = 6,
+  SICK_LEAVE = 12,
+  VACATION_LEAVE = 18,
+  EMERGENCY_LEAVE = 24,
+  BEREAVEMENT_LEAVE = 30,
+  MATERNITY_LEAVE = 36,
+  PENDING = 42,
+}

@@ -9,6 +9,8 @@ export interface TimeEntry {
     id: number;
     timeHour: string;
   };
+  timeInId: number;
+  timeOutId: number;
   startTime: string;
   endTime: string;
 }

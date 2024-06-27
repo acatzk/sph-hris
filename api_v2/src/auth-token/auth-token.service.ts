@@ -2,8 +2,8 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from 'cache-manager';
-import { Position } from '@/enums/position.enum';
-import { Role } from '@/enums/role.enum';
+import { PositionEnum } from '@/enums/position.enum';
+import { RoleIdEnum } from '@/enums/role-id.enum';
 
 @Injectable()
 export class AuthTokenService {
@@ -33,8 +33,8 @@ export class AuthTokenService {
   async fetchNewAuthToken(): Promise<string> {
     const signingPayload = {
       email: 'admin@sun-asterisk.com',
-      positionId: Position.ADMIN,
-      role: Role.HR_ADMIN,
+      positionId: PositionEnum.ADMIN,
+      role: RoleIdEnum.HR_ADMIN,
     };
 
     const signingOptions = { issuer: 'sun-hris' };
