@@ -195,7 +195,8 @@ export class SlackService {
     const slackUserId = payload.user.id;
     const userEmail = await this.formatToEmail(payload.user.name);
     const userDetails = await this.hrisApiService.getUserByEmail(userEmail);
-
+    console.log(userEmail);
+    console.log(userDetails);
     if (!userDetails) {
       await this.sendMessage({
         channel: slackUserId,
@@ -207,10 +208,25 @@ export class SlackService {
     const { timeEntry, id: userId, employeeSchedule } = userDetails;
     const workingDayTimes = employeeSchedule?.workingDayTimes;
 
+    const latestPreviousTimeEntry =
+      await this.hrisApiService.getLatestPreviousTimeEntry(userId);
+
     if (!timeEntry) {
       await this.sendMessage({
         channel: slackUserId,
         text: 'No existing HRIS time entry found.',
+      });
+      return;
+    }
+
+    if (
+      latestPreviousTimeEntry &&
+      latestPreviousTimeEntry.timeInId &&
+      !latestPreviousTimeEntry.timeOutId
+    ) {
+      await this.sendMessage({
+        channel: slackUserId,
+        text: 'Unable to login as you are not logged out for the previous work day.',
       });
       return;
     }

@@ -113,6 +113,29 @@ namespace api.Services
                 .FirstAsync();
         }
 
+        public async Task<TimeEntry?> GetLatestPreviousTimeEntry(int userId)
+        {
+            var domain = _httpService.getDomainURL();
+            using (HrisContext context = _contextFactory.CreateDbContext())
+            {
+                DateTime dateToday = DateTime.Today.AddDays(-1).Date;
+
+                var entry = await context.TimeEntries
+                    .Where(te => te.UserId == userId && te.Date.Date == dateToday)
+                    .FirstOrDefaultAsync();
+
+                if (entry == null)
+                {
+                    entry = await context.TimeEntries
+                        .Where(te => te.UserId == userId && te.Date.Date < dateToday)
+                        .FirstOrDefaultAsync();
+
+                }
+
+                return entry;
+            }
+        }
+
         public async Task<List<TimeEntryDTO>> GetAll(String? date = null, String? status = null)
         {
             var domain = _httpService.getDomainURL();

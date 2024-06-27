@@ -13,6 +13,7 @@ import { AuthTokenService } from '@/auth-token/auth-token.service';
 import { TimeEntry, TimeInRequest, User } from './hris.api.interface';
 import { HttpHeaders } from '@/shared/shared.interface';
 import {
+  getLatestPreviousTimeEntry,
   getTimeEntriesQuery,
   getUserByEmailQuery,
   timeInMutation,
@@ -72,6 +73,26 @@ export class HrisApiService {
     ).catch((error) => this.logger.error(error));
 
     return result?.data?.data?.timeEntries ?? [];
+  }
+
+  /**
+   * Retrieves the latest previous time entry for a given user ID.
+   *
+   * @param {number} userId - The ID of the user.
+   * @return {Promise<TimeEntry | null>} A promise that resolves to the latest previous time entry for the user, or null if not found.
+   */
+  async getLatestPreviousTimeEntry(userId: number): Promise<TimeEntry | null> {
+    const query = getLatestPreviousTimeEntry(userId);
+
+    const authToken = await this.authTokenService.getAuthToken();
+
+    const httpConfig = await this.getHttpConfig(authToken);
+
+    const result = await firstValueFrom(
+      this.httpService.post(this.hrisApiGraphQLEndpoint, { query }, httpConfig),
+    ).catch((error) => this.logger.error(error));
+
+    return result?.data?.data?.latestPreviousTimeEntry ?? null;
   }
 
   /**
