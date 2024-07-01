@@ -115,8 +115,8 @@ const ReassignMemberScheduleModal: FC<Props> = ({ isOpen, closeModal, member }):
                       state.isFocused
                         ? 'border-primary'
                         : !isEmpty(errors.schedule)
-                        ? 'border-rose-500 ring-rose-500'
-                        : 'border-slate-300'
+                          ? 'border-rose-500 ring-rose-500'
+                          : 'border-slate-300'
                   }}
                   value={field.value}
                   styles={customStyles}

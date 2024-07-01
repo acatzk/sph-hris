@@ -114,8 +114,8 @@ const AddScheduleMembersModal: FC<Props> = ({ isOpen, closeModal }): JSX.Element
                       state.isFocused
                         ? 'border-primary'
                         : !isEmpty(errors.members)
-                        ? 'border-rose-500 ring-rose-500'
-                        : 'border-slate-300'
+                          ? 'border-rose-500 ring-rose-500'
+                          : 'border-slate-300'
                   }}
                   value={field.value}
                   options={generateMemberSelect(

@@ -270,9 +270,9 @@ const LeaveTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                               state.isFocused
                                 ? 'border-primary'
                                 : errors.projects?.[index]?.project_name !== null &&
-                                  errors.projects?.[index]?.project_name !== undefined
-                                ? 'border-rose-500 ring-rose-500'
-                                : 'border-slate-300'
+                                    errors.projects?.[index]?.project_name !== undefined
+                                  ? 'border-rose-500 ring-rose-500'
+                                  : 'border-slate-300'
                           }}
                           isDisabled={isSubmitting}
                           backspaceRemovesValue={true}
@@ -317,9 +317,9 @@ const LeaveTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                               state.isFocused
                                 ? 'border-primary'
                                 : errors.projects?.[index]?.project_leader !== null &&
-                                  errors.projects?.[index]?.project_leader !== undefined
-                                ? 'border-rose-500 ring-rose-500'
-                                : 'border-slate-300'
+                                    errors.projects?.[index]?.project_leader !== undefined
+                                  ? 'border-rose-500 ring-rose-500'
+                                  : 'border-slate-300'
                           }}
                           backspaceRemovesValue={true}
                           options={generateUserSelect(leaders as UserType[])}
@@ -380,8 +380,8 @@ const LeaveTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                         state.isFocused
                           ? 'border-primary'
                           : errors.leave_type !== null && errors.leave_type !== undefined
-                          ? 'border-rose-500 ring-rose-500'
-                          : 'border-slate-300'
+                            ? 'border-rose-500 ring-rose-500'
+                            : 'border-slate-300'
                     }}
                     value={field.value}
                     onChange={field.onChange}
@@ -462,9 +462,9 @@ const LeaveTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                             state.isFocused
                               ? 'border-primary'
                               : errors.leave_date?.[index]?.number_of_days_in_leave !== null &&
-                                errors.leave_date?.[index]?.number_of_days_in_leave !== undefined
-                              ? 'border-rose-500 ring-rose-500'
-                              : 'border-slate-300'
+                                  errors.leave_date?.[index]?.number_of_days_in_leave !== undefined
+                                ? 'border-rose-500 ring-rose-500'
+                                : 'border-slate-300'
                         }}
                         styles={customStyles}
                         value={field.value}
@@ -547,8 +547,8 @@ const LeaveTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                         state.isFocused
                           ? 'border-primary'
                           : errors.manager !== null && errors.manager !== undefined
-                          ? 'border-rose-500 ring-rose-500'
-                          : 'border-slate-300'
+                            ? 'border-rose-500 ring-rose-500'
+                            : 'border-slate-300'
                     }}
                     value={field.value}
                     onChange={field.onChange}
