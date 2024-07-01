@@ -4,6 +4,6 @@ import { WorkInterruptionResolver } from './work-interruption.resolver';
 import { PrismaService } from '@/prisma/prisma.service';
 
 @Module({
-  providers: [WorkInterruptionResolver, WorkInterruptionService, PrismaService],
+  providers: [WorkInterruptionResolver, WorkInterruptionService , PrismaService],
 })
 export class WorkInterruptionModule {}

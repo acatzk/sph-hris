@@ -22,5 +22,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
-  ignorePatterns: ['src/prisma/classes/index.ts', 'src/graphql/graphql.ts'],
+  ignorePatterns: [
+    'src/prisma/classes/index.ts',
+    'src/graphql/graphql.ts'
+  ]
 };

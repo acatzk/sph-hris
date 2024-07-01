@@ -239,9 +239,9 @@ const UndertimeTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                               state.isFocused
                                 ? 'border-primary'
                                 : errors.projects?.[index]?.project_name !== null &&
-                                    errors.projects?.[index]?.project_name !== undefined
-                                  ? 'border-rose-500 ring-rose-500'
-                                  : 'border-slate-300'
+                                  errors.projects?.[index]?.project_name !== undefined
+                                ? 'border-rose-500 ring-rose-500'
+                                : 'border-slate-300'
                           }}
                           isDisabled={isSubmitting}
                           backspaceRemovesValue={true}
@@ -286,9 +286,9 @@ const UndertimeTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                               state.isFocused
                                 ? 'border-primary'
                                 : errors.projects?.[index]?.project_leader !== null &&
-                                    errors.projects?.[index]?.project_leader !== undefined
-                                  ? 'border-rose-500 ring-rose-500'
-                                  : 'border-slate-300'
+                                  errors.projects?.[index]?.project_leader !== undefined
+                                ? 'border-rose-500 ring-rose-500'
+                                : 'border-slate-300'
                           }}
                           backspaceRemovesValue={true}
                           options={generateUserSelect(leaders as UserType[])}
@@ -373,9 +373,9 @@ const UndertimeTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                         state.isFocused
                           ? 'border-primary'
                           : errors.number_of_days_in_leave_undertime !== null &&
-                              errors.number_of_days_in_leave_undertime !== undefined
-                            ? 'border-rose-500 ring-rose-500'
-                            : 'border-slate-300'
+                            errors.number_of_days_in_leave_undertime !== undefined
+                          ? 'border-rose-500 ring-rose-500'
+                          : 'border-slate-300'
                     }}
                     styles={customStyles}
                     value={field.value}
@@ -411,8 +411,8 @@ const UndertimeTab: FC<Props> = ({ isOpen, closeModal }): JSX.Element => {
                         state.isFocused
                           ? 'border-primary'
                           : errors.manager !== null && errors.manager !== undefined
-                            ? 'border-rose-500 ring-rose-500'
-                            : 'border-slate-300'
+                          ? 'border-rose-500 ring-rose-500'
+                          : 'border-slate-300'
                     }}
                     value={field.value}
                     onChange={field.onChange}

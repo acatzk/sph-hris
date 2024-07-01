@@ -368,12 +368,8 @@ type Mutation {
   updateTimeOut(timeOut: TimeOutRequestInput!): String!
   createSignIn: String!
   logout(logOut: LogoutRequestInput!): String!
-  createWorkInterruption(
-    interruption: CreateInterruptionRequestInput!
-  ): WorkInterruptionDTO!
-  updateWorkInterruption(
-    interruption: UpdateInterruptionRequestInput!
-  ): Boolean!
+  createWorkInterruption(interruption: CreateInterruptionRequestInput!): WorkInterruptionDTO!
+  updateWorkInterruption(interruption: UpdateInterruptionRequestInput!): Boolean!
   deleteWorkInterruption(id: Int!): Boolean!
   updateOneTimeEntry(updatedTimeEntry: UpdateTimeEntryInput!): String!
   createLeave(leave: CreateLeaveRequestInput!): [Leave!]!
@@ -384,42 +380,22 @@ type Mutation {
   createOvertime(overtime: CreateOvertimeRequestInput!): Overtime!
   createSummarizedOvertime(overtimeSummary: CreateSummaryRequestInput!): String!
   createBulkOvertime(request: CreateBulkOvertimeRequestInput!): [Overtime!]!
-  approveDisapproveOvertime(
-    approvingData: ApproveOvertimeRequestInput!
-  ): Boolean!
-  approveDisapproveAllOvertimeSummary(
-    approvingDatas: ApproveOvertimeSummaryRequestInput!
-  ): String!
-  approveDisapproveLeave(
-    approvingData: ApproveLeaveUndertimeRequestInput!
-  ): Boolean!
-  approveDisapproveUndertime(
-    approvingData: ApproveLeaveUndertimeRequestInput!
-  ): Boolean!
-  approveDisapproveChangeShift(
-    approvingData: ApproveChangeShiftRequestInput!
-  ): Boolean!
-  createChangeShift(
-    request: CreateChangeShiftRequestInput!
-  ): ChangeShiftRequest!
-  createESLChangeShift(
-    request: CreateESLChangeShiftRequestInput!
-  ): ESLChangeShiftRequest!
-  approveDisapproveESLChangeShiftStatus(
-    request: ApproveESLChangeShiftRequestInput!
-  ): ESLChangeShiftRequest!
+  approveDisapproveOvertime(approvingData: ApproveOvertimeRequestInput!): Boolean!
+  approveDisapproveAllOvertimeSummary(approvingDatas: ApproveOvertimeSummaryRequestInput!): String!
+  approveDisapproveLeave(approvingData: ApproveLeaveUndertimeRequestInput!): Boolean!
+  approveDisapproveUndertime(approvingData: ApproveLeaveUndertimeRequestInput!): Boolean!
+  approveDisapproveChangeShift(approvingData: ApproveChangeShiftRequestInput!): Boolean!
+  createChangeShift(request: CreateChangeShiftRequestInput!): ChangeShiftRequest!
+  createESLChangeShift(request: CreateESLChangeShiftRequestInput!): ESLChangeShiftRequest!
+  approveDisapproveESLChangeShiftStatus(request: ApproveESLChangeShiftRequestInput!): ESLChangeShiftRequest!
   createESLOffset(request: CreateESLOffsetRequestInput!): ESLOffset!
-  approveDisapproveChangeOffsetStatus(
-    request: ApproveESLChangeShiftRequestInput!
-  ): ESLOffset!
+  approveDisapproveChangeOffsetStatus(request: ApproveESLChangeShiftRequestInput!): ESLOffset!
   createEmployeeSchedule(request: CreateEmployeeScheduleRequestInput!): String!
   updateEmployeeSchedule(request: UpdateEmployeeScheduleRequestInput!): String!
   addMembersToSchedule(request: AddMemberToScheduleRequestInput!): String!
   updateMemberSchedule(request: UpdateMemberScheduleRequestInput!): String!
   deleteEmployeeSchedule(request: DeleteEmployeeScheduleRequestInput!): String!
-  changeScheduleRequest(
-    request: ChangeSchedRequestInput!
-  ): ChangeScheduleRequest!
+  changeScheduleRequest(request: ChangeSchedRequestInput!): ChangeScheduleRequest!
   addNewEmployee(request: AddNewEmployeeRequestInput!): Boolean!
 }
 
@@ -557,20 +533,15 @@ type Query {
   specificTimeEntryById(id: Int!): TimeEntry
   specificUserProfileDetail(id: Int!): UserDTO
   timeEntriesByEmployeeId(id: Int!): [TimeEntryDTO!]
-  timeEntries(date: String, status: String): [TimeEntryDTO!]!
-  timesheetSummary(
-    startDate: String
-    endDate: String
-  ): [TimeEntriesSummaryDTO!]!
+  timeEntries(date: String status: String): [TimeEntryDTO!]!
+  timesheetSummary(startDate: String endDate: String): [TimeEntriesSummaryDTO!]!
   allWorkInterruptionTypes: [WorkInterruptionType!]!
-  interruptionsByTimeEntryId(
-    interruption: ShowInterruptionRequestInput!
-  ): [WorkInterruptionDTO!]!
+  interruptionsByTimeEntryId(interruption: ShowInterruptionRequestInput!): [WorkInterruptionDTO!]!
   allLeaves: [LeaveDTO!]!
   leaveTypes: [LeaveType!]!
-  leaves(userId: Int!, year: Int!, leaveTypeId: Int!): LeavesDTO!
-  leavesByDate(userId: Int!, date: String!): LeavesDTO!
-  yearlyAllLeaves(year: Int!, leaveTypeId: Int!): LeavesDTO!
+  leaves(userId: Int! year: Int! leaveTypeId: Int!): LeavesDTO!
+  leavesByDate(userId: Int! date: String!): LeavesDTO!
+  yearlyAllLeaves(year: Int! leaveTypeId: Int!): LeavesDTO!
   yearlyAllLeavesByDate(date: String!): LeavesDTO!
   paidLeaves(id: Int!): Float!
   userLeave(leaveId: Int!): [LeaveDTO!]!
@@ -580,19 +551,14 @@ type Query {
   overtime(userId: Int!): [MyOvertimeDTO!]!
   allOvertime: [OvertimeDTO!]!
   changeShiftByTimeEntry(timeEntryId: Int!): ChangeShiftRequest!
-  eslOffsetsByTimeEntry(
-    timeEntryId: Int!
-    onlyUnused: Boolean! = false
-  ): [ESLOffsetDTO!]!
+  eslOffsetsByTimeEntry(timeEntryId: Int! onlyUnused: Boolean! = false): [ESLOffsetDTO!]!
   allESLOffsets(isUsed: Boolean): [ESLOffsetDTO!]!
   eslChangeShiftByTimeEntry(timeEntryId: Int!): ESLChangeShiftRequest!
   allEmployeeScheduleDetails: [EmployeeScheduleDTO!]!
   employeeScheduleDetails(employeeScheduleId: Int!): [EmployeeScheduleDTO!]!
   employeesBySchedule(employeeScheduleId: Int!): [UserDTO!]!
   employeeChangeScheduleRequest(userId: Int!): [ChangeScheduleRequest!]
-  searchEmployeesBySchedule(
-    request: SearchEmployeesByScheduleRequestInput!
-  ): [UserDTO!]!
+  searchEmployeesBySchedule(request: SearchEmployeesByScheduleRequestInput!): [UserDTO!]!
 }
 
 type Role {
@@ -1034,16 +1000,13 @@ input WorkingDayTimesRequestInput {
 }
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
-directive @specifiedBy(
-  "The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types."
-  url: String!
-) on SCALAR
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
 
 "The `Date` scalar represents an ISO-8601 compliant date type."
 scalar Date
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
 
 "The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
 scalar TimeSpan

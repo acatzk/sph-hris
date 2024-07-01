@@ -283,9 +283,9 @@ const ChangeShiftRequestModal: FC<Props> = ({ isOpen, timeEntry, closeModal }): 
                               state.isFocused
                                 ? 'border-primary'
                                 : errors.projects?.[index]?.project_name !== null &&
-                                    errors.projects?.[index]?.project_name !== undefined
-                                  ? 'border-rose-500 ring-rose-500'
-                                  : 'border-slate-300'
+                                  errors.projects?.[index]?.project_name !== undefined
+                                ? 'border-rose-500 ring-rose-500'
+                                : 'border-slate-300'
                           }}
                           isDisabled={isSubmitting}
                           backspaceRemovesValue={true}
@@ -325,9 +325,9 @@ const ChangeShiftRequestModal: FC<Props> = ({ isOpen, timeEntry, closeModal }): 
                               state.isFocused
                                 ? 'border-primary'
                                 : errors.projects?.[index]?.project_leader !== null &&
-                                    errors.projects?.[index]?.project_leader !== undefined
-                                  ? 'border-rose-500 ring-rose-500'
-                                  : 'border-slate-300'
+                                  errors.projects?.[index]?.project_leader !== undefined
+                                ? 'border-rose-500 ring-rose-500'
+                                : 'border-slate-300'
                           }}
                           backspaceRemovesValue={true}
                           options={generateUserSelect(leaders as UserType[])}
@@ -388,8 +388,8 @@ const ChangeShiftRequestModal: FC<Props> = ({ isOpen, timeEntry, closeModal }): 
                         state.isFocused
                           ? 'border-primary'
                           : errors.manager !== null && errors.manager !== undefined
-                            ? 'border-rose-500 ring-rose-500'
-                            : 'border-slate-300'
+                          ? 'border-rose-500 ring-rose-500'
+                          : 'border-slate-300'
                     }}
                     value={field.value}
                     onChange={field.onChange}

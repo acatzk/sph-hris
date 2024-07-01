@@ -4,9 +4,7 @@ import { CreateInterruptionRequestInput } from '@/graphql/graphql';
 
 @Resolver('WorkInterruption')
 export class WorkInterruptionResolver {
-  constructor(
-    private readonly workInterruptionService: WorkInterruptionService,
-  ) {}
+  constructor(private readonly workInterruptionService: WorkInterruptionService) {}
 
   @Mutation('createWorkInterruption')
   create(@Args('interruption') interruption: CreateInterruptionRequestInput) {

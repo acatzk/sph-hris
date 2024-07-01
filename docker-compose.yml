@@ -107,5 +107,5 @@ networks:
     driver: bridge
 
 volumes:
-  redis-data:
+  redis-data: 
     driver: local

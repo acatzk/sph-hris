@@ -224,8 +224,8 @@ const FileOffsetModal: FC<Props> = ({ isOpen, closeModal, tableRow }): JSX.Eleme
                         state.isFocused
                           ? 'border-primary'
                           : errors.teamLeader !== null && errors.teamLeader !== undefined
-                            ? 'border-rose-500 ring-rose-500'
-                            : 'border-slate-300'
+                          ? 'border-rose-500 ring-rose-500'
+                          : 'border-slate-300'
                     }}
                     value={field.value}
                     onChange={field.onChange}

@@ -289,8 +289,8 @@ const OvertimeManagement: NextPage = (): JSX.Element => {
                 data: isHRAdmin
                   ? overtimeData
                   : isManager
-                    ? overtimeData
-                    : managerData(overtimeData),
+                  ? overtimeData
+                  : managerData(overtimeData),
                 error: null
               },
               table: {

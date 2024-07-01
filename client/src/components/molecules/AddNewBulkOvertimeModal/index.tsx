@@ -176,8 +176,8 @@ const AddNewBulkOvertimeModal: FC<Props> = ({ isOpen, closeModal }): JSX.Element
                             state.isFocused
                               ? 'border-primary'
                               : errors.project !== null && errors.project !== undefined
-                                ? 'border-rose-500 ring-rose-500'
-                                : 'border-slate-300'
+                              ? 'border-rose-500 ring-rose-500'
+                              : 'border-slate-300'
                         }}
                         backspaceRemovesValue={true}
                         options={generateProjectSelect(projects?.projects as any)}
@@ -211,8 +211,8 @@ const AddNewBulkOvertimeModal: FC<Props> = ({ isOpen, closeModal }): JSX.Element
                           state.isFocused
                             ? 'border-primary'
                             : errors.manager !== null && errors.manager !== undefined
-                              ? 'border-rose-500 ring-rose-500'
-                              : 'border-slate-300'
+                            ? 'border-rose-500 ring-rose-500'
+                            : 'border-slate-300'
                       }}
                       value={field.value}
                       onChange={field.onChange}
@@ -249,8 +249,8 @@ const AddNewBulkOvertimeModal: FC<Props> = ({ isOpen, closeModal }): JSX.Element
                           state.isFocused
                             ? 'border-primary'
                             : errors.members !== null && errors.members !== undefined
-                              ? 'border-rose-500 ring-rose-500'
-                              : 'border-slate-300'
+                            ? 'border-rose-500 ring-rose-500'
+                            : 'border-slate-300'
                       }}
                       backspaceRemovesValue={true}
                       options={generateUserSelect(members)}
