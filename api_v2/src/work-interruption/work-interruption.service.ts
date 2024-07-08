@@ -118,10 +118,7 @@ export class WorkInterruptionService {
       workInterruptionType: interruption.workInterruptionType
         ? this.mapWorkInterruptionType(interruption.workInterruptionType)
         : null,
-      createdAt:
-        interruption.createdAt 
-          ? getCurrentDate
-          : null,
+      createdAt: interruption.createdAt ? getCurrentDate : null,
     };
     return mappedInterruption;
   }
