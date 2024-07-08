@@ -1,8 +1,9 @@
 import {
   CreateInterruptionRequestInput,
-  WorkInterruptionType,
   WorkInterruptionDTO,
   ShowInterruptionRequestInput,
+  WorkInterruption,
+  WorkInterruptionType,
 } from '@/graphql/graphql';
 import { PrismaService } from '@/prisma/prisma.service';
 import {
@@ -12,18 +13,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { formatDate, getCurrentDate } from '../utilities/date.util';
-
-interface WorkInterruption {
-  id: number;
-  timeOut: Date | null;
-  timeIn: Date | null;
-  workInterruptionTypeId: number;
-  timeEntryId: number;
-  otherReason: string | null;
-  remarks: string | null;
-  createdAt: Date | null;
-  workInterruptionType: WorkInterruptionType;
-}
 
 @Injectable()
 export class WorkInterruptionService {
@@ -35,7 +24,6 @@ export class WorkInterruptionService {
    * @param interruption TimeEntryId and WorkInterruptionTypeId are required
    * @returns the Id of the new work interruption maded
    */
-
   async create(interruption: CreateInterruptionRequestInput) {
     if (!interruption.timeEntryId) {
       throw new BadRequestException('timeEntryId is required');
@@ -86,28 +74,15 @@ export class WorkInterruptionService {
   }
 
   /**
-   * Retrieves interruptions for a specific time entry ID.
+   * Retrieves work interruptions by time entry ID.
    *
-   * @param {ShowInterruptionRequestInput} interruption - The request input containing the time entry ID.
-   * @returns {Promise<WorkInterruptionDTO[]>} A promise that resolves to an array of WorkInterruptionDTO objects.
+   * @param {ShowInterruptionRequestInput} interruption - The input containing the time entry ID.
+   * @returns {Promise<WorkInterruptionDTO[]>} The list of work interruptions DTOs.
    */
   async interruptionsByTimeEntryId(
     interruption: ShowInterruptionRequestInput,
   ): Promise<WorkInterruptionDTO[]> {
-    const interruptions = await this.fetchInterruptions(interruption);
-    return this.mapInterruptions(interruptions);
-  }
-
-  /**
-   * Fetches interruptions from the database based on the given criteria.
-   *
-   * @param {ShowInterruptionRequestInput} interruption - The request input containing the time entry ID.
-   * @returns {Promise<WorkInterruption[]>} A promise that resolves to an array of WorkInterruption objects.
-   */
-  private async fetchInterruptions(
-    interruption: ShowInterruptionRequestInput,
-  ): Promise<WorkInterruption[]> {
-    const dbInterruptions = await this.prisma.workInterruption.findMany({
+    const interruptions = await this.prisma.workInterruption.findMany({
       where: {
         timeEntryId: interruption.timeEntryId,
       },
@@ -115,57 +90,20 @@ export class WorkInterruptionService {
         workInterruptionType: true,
       },
     });
-    return dbInterruptions.map((interruption) =>
-      this.mapInterruption(interruption),
-    );
+
+    return interruptions.map(this.mapWorkInterruption.bind(this)); // Using bind(this) to maintain context
   }
 
   /**
-   * Maps an array of WorkInterruption objects to an array of WorkInterruptionDTO objects.
+   * Maps a single work interruption from the database model to the DTO.
    *
-   * @param {WorkInterruption[]} interruptions - The array of WorkInterruption objects to map.
-   * @returns {WorkInterruptionDTO[]} An array of mapped WorkInterruptionDTO objects.
+   * @param {WorkInterruption} interruption - The work interruption object from the database.
+   * @returns {WorkInterruptionDTO} The mapped work interruption DTO.
    */
-  private mapInterruptions(
-    interruptions: WorkInterruption[],
-  ): WorkInterruptionDTO[] {
-    return interruptions.map((interruption) =>
-      this.mapInterruptionToDTO(interruption),
-    );
-  }
-
-  /**
-   * Maps a single WorkInterruption object to a WorkInterruptionDTO object.
-   *
-   * @param {WorkInterruption} interruption - The WorkInterruption object to map.
-   * @returns {WorkInterruptionDTO} The mapped WorkInterruptionDTO object.
-   */
-  private mapInterruption(interruption: any): WorkInterruption {
-    return {
-      id: interruption.id,
-      timeOut: interruption.timeOut ?? null,
-      timeIn: interruption.timeIn ?? null,
-      workInterruptionTypeId: interruption.workInterruptionTypeId,
-      timeEntryId: interruption.timeEntryId,
-      otherReason: interruption.otherReason ?? null,
-      remarks: interruption.remarks ?? null,
-      workInterruptionType: this.mapWorkInterruptionType(
-        interruption.workInterruptionType,
-      ),
-      createdAt: interruption.createdAt ?? null,
-    };
-  }
-
-  /**
-   * Maps a single WorkInterruption object to a WorkInterruptionDTO object with formatted dates.
-   *
-   * @param {WorkInterruption} interruption - The WorkInterruption object to map.
-   * @returns {WorkInterruptionDTO} The mapped WorkInterruptionDTO object with formatted dates.
-   */
-  private mapInterruptionToDTO(
+  private mapWorkInterruption(
     interruption: WorkInterruption,
   ): WorkInterruptionDTO {
-    return {
+    const mappedInterruption: WorkInterruptionDTO = {
       id: interruption.id,
       timeOut: interruption.timeOut
         ? interruption.timeOut.toISOString().slice(11, 19)
@@ -175,30 +113,33 @@ export class WorkInterruptionService {
         : null,
       workInterruptionTypeId: interruption.workInterruptionTypeId,
       timeEntryId: interruption.timeEntryId,
-      otherReason: interruption.otherReason,
-      remarks: interruption.remarks,
-      workInterruptionType: this.mapWorkInterruptionType(
-        interruption.workInterruptionType,
-      ),
-      createdAt: interruption.createdAt
-        ? interruption.createdAt.toISOString()
+      otherReason: interruption.otherReason || null,
+      remarks: interruption.remarks || null,
+      workInterruptionType: interruption.workInterruptionType
+        ? this.mapWorkInterruptionType(interruption.workInterruptionType)
         : null,
+      createdAt:
+        interruption.createdAt 
+          ? getCurrentDate
+          : null,
     };
+    return mappedInterruption;
   }
-
   /**
-   * Maps a WorkInterruptionType object to a simplified representation.
+   * Maps the work interruption type from the database model to the DTO.
    *
-   * @param {WorkInterruptionType} type - The WorkInterruptionType object to map.
-   * @returns {WorkInterruptionType} A simplified representation of the WorkInterruptionType object.
+   * @param {WorkInterruptionType} type - The work interruption type from the database.
+   * @returns {WorkInterruptionType | null} The mapped work interruption type DTO.
    */
   private mapWorkInterruptionType(
     type: WorkInterruptionType,
-  ): WorkInterruptionType {
+  ): WorkInterruptionType | null {
     return {
       id: type.id,
-      name: type.name ?? null,
-      workInterruption: type.workInterruption ?? [],
+      name: type.name || null,
+      workInterruption: type.workInterruption
+        ? type.workInterruption.map(this.mapWorkInterruption)
+        : [],
       createdAt: type.createdAt ? getCurrentDate : null,
       updatedAt: type.updatedAt ? getCurrentDate : null,
     };
