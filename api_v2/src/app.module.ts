@@ -22,6 +22,7 @@ import { LogoutModule } from './logout/logout.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
 import { WorkInterruptionModule } from './work-interruption/work-interruption.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { WorkInterruptionModule } from './work-interruption/work-interruption.mo
     LogoutModule,
     FileUploadModule,
     WorkInterruptionModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
