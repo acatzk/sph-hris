@@ -21,6 +21,7 @@ import { SignInModule } from './sign-in/sign-in.module';
 import { LogoutModule } from './logout/logout.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
+import { WorkInterruptionModule } from './work-interruption/work-interruption.module';
 
 @Module({
   imports: [
@@ -76,6 +77,7 @@ import { graphqlUploadExpress } from 'graphql-upload-ts';
     SignInModule,
     LogoutModule,
     FileUploadModule,
+    WorkInterruptionModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
