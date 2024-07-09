@@ -1,4 +1,7 @@
-import { CreateInterruptionRequestInput } from '@/graphql/graphql';
+import {
+  CreateInterruptionRequestInput,
+  UpdateInterruptionRequestInput,
+} from '@/graphql/graphql';
 import { PrismaService } from '@/prisma/prisma.service';
 import {
   BadRequestException,
@@ -6,7 +9,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { formatDate } from '../utilities/date.util';
+import { formatDate, formatToISO } from '../utilities/date.util';
 
 @Injectable()
 export class WorkInterruptionService {
@@ -65,6 +68,32 @@ export class WorkInterruptionService {
       throw new InternalServerErrorException(
         'An error occurred while creating the interruption',
       );
+    }
+  }
+
+  async updateInterruption(
+    interruption: UpdateInterruptionRequestInput,
+  ): Promise<boolean> {
+    const { id, ...updateData } = interruption;
+
+    try {
+      const updatedInterruption = await this.prisma.workInterruption.update({
+        where: { id },
+        data: {
+          ...updateData,
+          timeOut: interruption.timeOut
+            ? formatToISO(interruption.timeOut)
+            : null,
+          timeIn: interruption.timeIn ? formatToISO(interruption.timeIn) : null,
+          timeEntryId: undefined,
+          createdAt: undefined,
+        },
+      });
+
+      return !!updatedInterruption;
+    } catch (error) {
+      console.error('Error updating interruption:', error);
+      return false;
     }
   }
 }
