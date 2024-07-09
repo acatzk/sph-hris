@@ -38,6 +38,7 @@ export class SignInService {
         user.id,
         user.email,
         user.roleId,
+        user.positionId,
       );
 
       return authToken;
@@ -74,7 +75,7 @@ export class SignInService {
   }
 
   /**
-   * Generates an authentication token based on the provided user ID, email, and role ID.
+   * Generates an authentication token based on the provided user ID, email, role ID and position ID.
    *
    * @param {number} id - The user ID for whom the token is generated.
    * @param {string | null} email - The email associated with the user.
@@ -85,11 +86,13 @@ export class SignInService {
     id: number,
     email: string | null,
     roleId: number,
+    positionId: number,
   ): Promise<string> {
     const signingPayload = {
       nameid: id,
       email,
       role: roleId,
+      position: positionId,
     };
 
     const signOptions = { issuer: 'sun-hris' };
