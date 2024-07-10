@@ -141,4 +141,20 @@ export class WorkInterruptionService {
       updatedAt: type.updatedAt ? getCurrentDate : null,
     };
   }
+  /**
+   * Deletes a WorkInterruption record from the database.
+   * @param {number} id - The ID of the WorkInterruption to delete.
+   * @returns {Promise<boolean>} A boolean indicating whether the deletion was successful.
+   */
+  async deleteWorkInterruption(id: number): Promise<boolean> {
+    try {
+      const result = await this.prisma.workInterruption.delete({
+        where: { id },
+      });
+      return !!result;
+    } catch (error) {
+      console.error(`Error deleting WorkInterruption with ID ${id}:`, error);
+      return false;
+    }
+  }
 }
