@@ -1,9 +1,12 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { WorkInterruptionService } from './work-interruption.service';
 import {
-  CreateInterruptionRequestInput,
   WorkInterruptionDTO,
   ShowInterruptionRequestInput,
+} from '@/graphql/graphql';
+import {
+  CreateInterruptionRequestInput,
+  UpdateInterruptionRequestInput,
 } from '@/graphql/graphql';
 
 @Resolver('WorkInterruption')
@@ -38,5 +41,23 @@ export class WorkInterruptionResolver {
     return this.workInterruptionService.interruptionsByTimeEntryId(
       interruption,
     );
+  }
+  /**
+   * Mutation resolver to update an existing work interruption record.
+   * @param {UpdateInterruptionRequestInput} interruption - The data to update for the interruption.
+   * @returns {Promise<boolean>} Returns true if the interruption was successfully updated, false otherwise.
+   */
+  @Mutation(() => Boolean)
+  async updateWorkInterruption(
+    @Args('interruption') interruption: UpdateInterruptionRequestInput,
+  ): Promise<boolean> {
+    try {
+      const updateSuccessful =
+        await this.workInterruptionService.updateInterruption(interruption);
+      return updateSuccessful;
+    } catch (error) {
+      console.error(`Error updating work interruption`);
+      return false;
+    }
   }
 }
