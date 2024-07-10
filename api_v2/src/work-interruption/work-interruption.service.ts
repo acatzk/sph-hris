@@ -1,9 +1,10 @@
 import {
-  CreateInterruptionRequestInput,
   WorkInterruptionDTO,
   ShowInterruptionRequestInput,
   WorkInterruption,
   WorkInterruptionType,
+  CreateInterruptionRequestInput,
+  UpdateInterruptionRequestInput,
 } from '@/graphql/graphql';
 import { PrismaService } from '@/prisma/prisma.service';
 import {
@@ -12,7 +13,11 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { formatDate, getCurrentDate } from '../utilities/date.util';
+import {
+  formatDate,
+  getCurrentDate,
+  formatToISO,
+} from '../utilities/date.util';
 
 @Injectable()
 export class WorkInterruptionService {
@@ -140,6 +145,48 @@ export class WorkInterruptionService {
       createdAt: type.createdAt ? getCurrentDate : null,
       updatedAt: type.updatedAt ? getCurrentDate : null,
     };
+  }
+  /**
+   * Updates an existing work interruption record in the database.
+   * @param {UpdateInterruptionRequestInput} interruption - The data to update for the interruption.
+   * @returns {Promise<boolean>} Returns true if the interruption was successfully updated, false otherwise.
+   */
+
+  async updateInterruption(
+    interruption: UpdateInterruptionRequestInput,
+  ): Promise<boolean> {
+    const {
+      id,
+      otherReason,
+      remarks,
+      timeOut,
+      timeIn,
+      workInterruptionTypeId,
+    } = interruption;
+
+    if (!otherReason && !remarks && !timeOut && !timeIn) {
+      return false;
+    }
+
+    try {
+      const updatedInterruption = await this.prisma.workInterruption.update({
+        where: { id },
+        data: {
+          ...(otherReason && { otherReason }),
+          ...(remarks && { remarks }),
+          timeOut: timeOut ? formatToISO(timeOut) : undefined,
+          timeIn: timeIn ? formatToISO(timeIn) : undefined,
+          workInterruptionTypeId: workInterruptionTypeId
+            ? workInterruptionTypeId
+            : undefined,
+        },
+      });
+
+      return !!updatedInterruption;
+    } catch (error) {
+      console.error('Error updating interruption:', error);
+      return false;
+    }
   }
   /**
    * Deletes a WorkInterruption record from the database.
