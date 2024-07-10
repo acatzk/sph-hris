@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, Int } from '@nestjs/graphql';
 import { WorkInterruptionService } from './work-interruption.service';
 import {
   WorkInterruptionDTO,
@@ -58,6 +58,23 @@ export class WorkInterruptionResolver {
     } catch (error) {
       console.error(`Error updating work interruption`);
       return false;
+    }
+  }
+  /**
+   * GraphQL Mutation: Deletes a WorkInterruption record from the database.
+   * @param {number} id - The ID of the WorkInterruption to delete.
+   * @returns {Promise<boolean>} A boolean indicating whether the deletion was successful.
+   */
+  @Mutation(() => Boolean)
+  async deleteWorkInterruption(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<boolean> {
+    try {
+      const deleted =
+        await this.workInterruptionService.deleteWorkInterruption(id);
+      return !!deleted;
+    } catch (error) {
+      throw error;
     }
   }
 }
