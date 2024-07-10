@@ -151,22 +151,34 @@ export class WorkInterruptionService {
    * @param {UpdateInterruptionRequestInput} interruption - The data to update for the interruption.
    * @returns {Promise<boolean>} Returns true if the interruption was successfully updated, false otherwise.
    */
+
   async updateInterruption(
     interruption: UpdateInterruptionRequestInput,
   ): Promise<boolean> {
-    const { id, ...updateData } = interruption;
+    const {
+      id,
+      otherReason,
+      remarks,
+      timeOut,
+      timeIn,
+      workInterruptionTypeId,
+    } = interruption;
+
+    if (!otherReason && !remarks && !timeOut && !timeIn) {
+      return false;
+    }
 
     try {
       const updatedInterruption = await this.prisma.workInterruption.update({
         where: { id },
         data: {
-          ...updateData,
-          timeOut: interruption.timeOut
-            ? formatToISO(interruption.timeOut)
-            : null,
-          timeIn: interruption.timeIn ? formatToISO(interruption.timeIn) : null,
-          timeEntryId: undefined,
-          createdAt: undefined,
+          ...(otherReason && { otherReason }),
+          ...(remarks && { remarks }),
+          timeOut: timeOut ? formatToISO(timeOut) : undefined,
+          timeIn: timeIn ? formatToISO(timeIn) : undefined,
+          workInterruptionTypeId: workInterruptionTypeId
+            ? workInterruptionTypeId
+            : undefined,
         },
       });
 
