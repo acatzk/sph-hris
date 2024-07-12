@@ -13,11 +13,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  formatDate,
-  getCurrentDate,
-  formatToISO,
-} from '../utilities/date.util';
+import { getCurrentDate, formatToISO } from '../utilities/date.util';
 
 @Injectable()
 export class WorkInterruptionService {
@@ -59,13 +55,16 @@ export class WorkInterruptionService {
           timeEntryId: interruption.timeEntryId,
           workInterruptionTypeId: interruption.workInterruptionTypeId,
           otherReason: interruption.otherReason || null,
-          timeOut: interruption.timeOut
-            ? formatDate(interruption.timeOut, 'HH:mm:ss')
-            : null,
-          timeIn: interruption.timeIn
-            ? formatDate(interruption.timeIn, 'HH:mm:ss')
-            : null,
+          timeOut:
+            interruption.timeOut !== undefined
+              ? formatToISO(interruption.timeOut)
+              : null,
+          timeIn:
+            interruption.timeIn !== undefined
+              ? formatToISO(interruption.timeIn)
+              : null,
           remarks: interruption.remarks || null,
+          createdAt: getCurrentDate().toString(),
         },
       });
 
@@ -186,6 +185,22 @@ export class WorkInterruptionService {
       return !!updatedInterruption;
     } catch (error) {
       console.error('Error updating interruption:', error);
+      return false;
+    }
+  }
+  /**
+   * Deletes a WorkInterruption record from the database.
+   * @param {number} id - The ID of the WorkInterruption to delete.
+   * @returns {Promise<boolean>} A boolean indicating whether the deletion was successful.
+   */
+  async deleteWorkInterruption(id: number): Promise<boolean> {
+    try {
+      const result = await this.prisma.workInterruption.delete({
+        where: { id },
+      });
+      return !!result;
+    } catch (error) {
+      console.error(`Error deleting WorkInterruption with ID ${id}:`, error);
       return false;
     }
   }
