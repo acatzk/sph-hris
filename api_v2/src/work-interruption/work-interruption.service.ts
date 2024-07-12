@@ -13,11 +13,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  formatDate,
-  getCurrentDate,
-  formatToISO,
-} from '../utilities/date.util';
+import { getCurrentDate, formatToISO } from '../utilities/date.util';
 
 @Injectable()
 export class WorkInterruptionService {
@@ -59,13 +55,16 @@ export class WorkInterruptionService {
           timeEntryId: interruption.timeEntryId,
           workInterruptionTypeId: interruption.workInterruptionTypeId,
           otherReason: interruption.otherReason || null,
-          timeOut: interruption.timeOut
-            ? formatDate(interruption.timeOut, 'HH:mm:ss')
-            : null,
-          timeIn: interruption.timeIn
-            ? formatDate(interruption.timeIn, 'HH:mm:ss')
-            : null,
+          timeOut:
+            interruption.timeOut !== undefined
+              ? formatToISO(interruption.timeOut)
+              : null,
+          timeIn:
+            interruption.timeIn !== undefined
+              ? formatToISO(interruption.timeIn)
+              : null,
           remarks: interruption.remarks || null,
+          createdAt: getCurrentDate().toString(),
         },
       });
 
