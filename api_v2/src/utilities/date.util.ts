@@ -6,14 +6,6 @@ import { DateTime } from 'luxon';
  *
  * @param {string | null} time - The time string to be converted. It should be in the format 'HH:mm:ss'.
  * @returns {string | null} - The ISO formatted time string or null if the input is null.
- *
- * @example
- * // returns '1970-01-01T10:30:00.000Z'
- * formatToISO('10:30:00');
- *
- * @example
- * // returns null
- * formatToISO(null);
  */
 const formatToISO = (time: string | null): string | null => {
   return time
