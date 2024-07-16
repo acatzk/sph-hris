@@ -6,7 +6,15 @@ export type InterruptionType = {
 }
 
 export type WorkInterruptionType = {
-  allWorkInterruptionTypes: InterruptionType[]
+  allWorkInterruptionTypes: Array<{
+    createdAt: string
+    timeEntryId: number
+    workInterruptionType: { name: string }
+    otherReason: string
+    timeOut: string
+    timeIn: string
+    remarks: string
+  }>
 }
 
 export type WorkInterruption = {
@@ -19,4 +27,5 @@ export type WorkInterruption = {
 }
 export type WorkInterruptions = {
   interruptionsByTimeEntryId: IInterruptionTimeEntry[]
+  allWorkInterruptions: IInterruptionTimeEntry[]
 }

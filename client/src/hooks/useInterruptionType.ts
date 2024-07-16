@@ -10,7 +10,8 @@ import { toast } from 'react-hot-toast'
 import { client } from '~/utils/shared/client'
 import {
   GET_ALL_WORK_INTERRUPTIONS_QUERY,
-  GET_INTERRUPTION_TYPES_QUERY
+  GET_INTERRUPTION_TYPES_QUERY,
+  GET_ALL_INTERRUPTIONS_QUERY
 } from '~/graphql/queries/workInterruptionQuery'
 import {
   CREATE_INTERRUPTION_MUTATION,
@@ -61,6 +62,7 @@ type returnType = {
     DeleteInterruptionRequest,
     unknown
   >
+  useAllWorkInterruptions: () => UseQueryResult<WorkInterruptions, unknown>
 }
 type handleInterruptionTypeQueryType = UseQueryResult<WorkInterruptionType, unknown>
 type handleGetAllWorkInterruptionsQueryType = UseQueryResult<WorkInterruptions, unknown>
@@ -142,12 +144,22 @@ const useInterruptionType = (): returnType => {
         toast.error('Something went wrong')
       }
     })
+  const useAllWorkInterruptions = () => {
+    return useQuery<WorkInterruptions, Error>({
+      queryKey: ['GET_ALL_INTERRUPTIONS_QUERY'],
+      queryFn: async () => {
+        const data = await client.request(GET_ALL_INTERRUPTIONS_QUERY)
+        return data
+      }
+    })
+  }
   return {
     handleInterruptionTypeQuery,
     handleInterruptionMutation,
     handleGetAllWorkInterruptionsQuery,
     handleUpdateInterruptionMutation,
-    handleDeleteInterruptionMutation
+    handleDeleteInterruptionMutation,
+    useAllWorkInterruptions
   }
 }
 

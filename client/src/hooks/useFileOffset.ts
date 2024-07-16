@@ -2,7 +2,7 @@ import toast from 'react-hot-toast'
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query'
 
 import { client } from '~/utils/shared/client'
-import { GET_ALL_ESL_FILED_OFFSETS } from '~/graphql/queries/eslFiledOffsets'
+import { GET_ALL_ESL_FILED_OFFSETS, GET_ALL_FILED_OFFSETS } from '~/graphql/queries/eslFiledOffsets'
 import { IFiledOffsetData, IFileOffset } from '~/utils/interfaces/fileOffsetInterface'
 import { CREATE_FILE_OFFSET_MUTATION } from '~/graphql/mutations/fileOffsetMutation'
 
@@ -11,10 +11,15 @@ type FiledOffsetFuncReturnType = UseQueryResult<
   { eslOffsetsByTimeEntry: IFiledOffsetData[] },
   unknown
 >
+type AllFiledOffsetsFuncReturnType = UseQueryResult<
+  { allFiledOffsets: IFiledOffsetData[] },
+  unknown
+>
 
 type HookReturnType = {
   handleAddFileOffsetMutation: () => FileOffsetFuncReturnType
   getESLFiledOffsetsQuery: (timeEntryId: number) => FiledOffsetFuncReturnType
+  getAllFiledOffsetsQuery: () => AllFiledOffsetsFuncReturnType
 }
 
 const useFileOffset = (): HookReturnType => {
@@ -36,9 +41,17 @@ const useFileOffset = (): HookReturnType => {
       select: (data: { eslOffsetsByTimeEntry: IFiledOffsetData[] }) => data
     })
 
+  const getAllFiledOffsetsQuery = (): AllFiledOffsetsFuncReturnType =>
+    useQuery({
+      queryKey: ['GET_ALL_FILED_OFFSETS'],
+      queryFn: async () => await client.request(GET_ALL_FILED_OFFSETS),
+      select: (data: { allFiledOffsets: IFiledOffsetData[] }) => data
+    })
+
   return {
     handleAddFileOffsetMutation,
-    getESLFiledOffsetsQuery
+    getESLFiledOffsetsQuery,
+    getAllFiledOffsetsQuery
   }
 }
 

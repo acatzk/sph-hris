@@ -25,3 +25,22 @@ export const GET_ALL_WORK_INTERRUPTIONS_QUERY = gql`
     }
   }
 `
+export const GET_ALL_INTERRUPTIONS_QUERY = gql`
+  {
+    allWorkInterruptions {
+      userName
+      id
+      timeOut
+      timeIn
+      otherReason
+      remarks
+      workInterruptionType {
+        id
+        name
+      }
+      workInterruptionTypeId
+      timeEntryId
+      createdAt
+    }
+  }
+`

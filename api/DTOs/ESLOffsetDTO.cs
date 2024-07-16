@@ -6,6 +6,7 @@ namespace api.DTOs
     {
         public new string TimeIn { get; set; } = default!;
         public new string TimeOut { get; set; } = default!;
+        public string UserName { get; set; } = default!;
 
         public ESLOffsetDTO(ESLOffset eslOffset)
         {
@@ -13,6 +14,7 @@ namespace api.DTOs
             {
                 Id = eslOffset.Id;
                 UserId = eslOffset.UserId;
+                UserName = eslOffset.User.Name;
                 TimeEntryId = eslOffset.TimeEntryId;
                 TeamLeaderId = eslOffset.TeamLeaderId;
                 TimeIn = eslOffset.TimeIn.ToString(@"hh\:mm");

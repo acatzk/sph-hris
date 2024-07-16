@@ -21,5 +21,17 @@ namespace api.Schema.Queries
         {
             return await _interruptionService.Show(interruption);
         }
+         public async Task<List<WorkInterruptionDTO>> GetAllWorkInterruptions()
+        {
+             var interruptions = await _interruptionService.GetAllInterruptions();
+
+            // Ensure related data is included
+            foreach (var interruption in interruptions)
+            {
+                await _interruptionService.IncludeRelatedData(interruption);
+            }
+
+            return interruptions;
+        }
     }
 }
