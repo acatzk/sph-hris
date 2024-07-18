@@ -85,9 +85,9 @@ namespace api.Services
                 return new WorkInterruptionDTO(work);
             }
         }
-         public async Task<List<WorkInterruptionDTO>> GetAllInterruptions()
+        public async Task<List<WorkInterruptionDTO>> GetAllInterruptions()
         {
-             using (HrisContext context = _contextFactory.CreateDbContext())
+            using (HrisContext context = _contextFactory.CreateDbContext())
             {
                 var interruptions = await context.WorkInterruptions
                     .Include(wi => wi.WorkInterruptionType)
@@ -98,7 +98,7 @@ namespace api.Services
                 return interruptions.Select(wi => new WorkInterruptionDTO(wi)).ToList();
             }
         }
-         public async Task IncludeRelatedData(WorkInterruptionDTO interruption)
+        public async Task IncludeRelatedData(WorkInterruptionDTO interruption)
         {
             using (HrisContext context = _contextFactory.CreateDbContext())
             {

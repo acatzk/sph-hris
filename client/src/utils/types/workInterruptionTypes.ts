@@ -7,6 +7,8 @@ export type InterruptionType = {
 
 export type WorkInterruptionType = {
   allWorkInterruptionTypes: Array<{
+    id: number
+    name: string
     createdAt: string
     timeEntryId: number
     workInterruptionType: { name: string }

@@ -190,22 +190,7 @@ const DTRManagement: NextPage = (): JSX.Element => {
       })
     }
   }
-  const generateSummaryCSVData = (data: any[], startDate: string, endDate: string) => {
-    const start = moment(startDate)
-    const end = moment(endDate)
-
-    const filteredData = data.filter((entry) => {
-      const entryDate = moment(entry.date)
-      return entryDate.isBetween(start, end, null, '[]')
-    })
-
-    return filteredData.map((entry) => ({
-      date: moment(entry.date).format('DD-MM-YYYY'),
-      name: entry.user.name
-    }))
-  }
-
-  const getSummaryFilename = () => {
+  const getSummaryFilename = (): string => {
     const startDate = moment(filters.startDate)
     const endDate = moment(filters.endDate)
     const dateRange =
