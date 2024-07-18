@@ -1,6 +1,19 @@
 import { DateTime } from 'luxon';
 
 /**
+ * Converts a time string in the format 'HH:mm:ss' to ISO format.
+ * If the input is null, it returns null.
+ *
+ * @param {string | null} time - The time string to be converted. It should be in the format 'HH:mm:ss'.
+ * @returns {string | null} - The ISO formatted time string or null if the input is null.
+ */
+const formatToISO = (time: string | null): string | null => {
+  return time
+    ? DateTime.fromFormat(time, 'HH:mm:ss', { zone: 'utc' }).toISO()
+    : null;
+};
+
+/**
  * Formats a given date string into a specified format using Luxon's DateTime object.
  *
  * @param {string} date - The date string to format.
@@ -57,4 +70,10 @@ const isBetweenTime = (
   return isAfterStartTime && isBeforeEndTime;
 };
 
-export { formatDate, getCurrentDate, getCurrentTimeDuration, isBetweenTime };
+export {
+  formatDate,
+  getCurrentDate,
+  getCurrentTimeDuration,
+  isBetweenTime,
+  formatToISO,
+};

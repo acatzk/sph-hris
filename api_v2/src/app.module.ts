@@ -22,6 +22,8 @@ import { LogoutModule } from './logout/logout.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
 import { WorkInterruptionModule } from './work-interruption/work-interruption.module';
+import { APP_GUARD } from '@nestjs/core';
+import { PositionsGuard } from './guards/position.guard';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -82,7 +84,14 @@ import { UserModule } from './user/user.module';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver],
+  providers: [
+    AppService,
+    AppResolver,
+    {
+      provide: APP_GUARD,
+      useClass: PositionsGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

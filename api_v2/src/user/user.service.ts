@@ -6,6 +6,7 @@ import { User } from '@prisma/client';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
+  //Gets all users before querying
   async getUsers(): Promise<User[]> {
     return this.prisma.user.findMany({
       include: {
@@ -18,6 +19,8 @@ export class UserService {
       },
     });
   }
+
+  //Gets the users by ID before querying
   async getUserById(id: number): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { id },
