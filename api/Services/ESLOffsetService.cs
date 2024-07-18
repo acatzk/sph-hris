@@ -77,22 +77,19 @@ namespace api.Services
             }
         }
         public async Task<List<ESLOffsetDTO>> GetAllFiledOffsets()
+        {
+            using (HrisContext context = _contextFactory.CreateDbContext())
             {
-                using (HrisContext context = _contextFactory.CreateDbContext())
-                {
-                    var filedOffsets = await context.ESLOffsets
-                        .Include(x => x.TeamLeader)
-                        .Include(x => x.User)
-                        .OrderByDescending(x => x.CreatedAt)
-                        .Select(x => new ESLOffsetDTO(x))
-                        .ToListAsync();
+                var filedOffsets = await context.ESLOffsets
+                    .Include(x => x.TeamLeader)
+                    .Include(x => x.User)
+                    .OrderByDescending(x => x.CreatedAt)
+                    .Select(x => new ESLOffsetDTO(x))
+                    .ToListAsync();
 
-                    return filedOffsets;
-                }
+                return filedOffsets;
             }
-    
-       
-
+        }
         public string GetRequestStatus(ESLOffset request)
         {
             if (request.IsLeaderApproved == true) return RequestStatus.APPROVED;

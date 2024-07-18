@@ -6,7 +6,7 @@ namespace api.DTOs
     {
         public new string? TimeOut { get; set; }
         public new string? TimeIn { get; set; }
-         public string? UserName { get; set; } 
+        public string? UserName { get; set; }
         public WorkInterruptionDTO(WorkInterruption interruption)
         {
             Id = interruption.Id;

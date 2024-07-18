@@ -144,7 +144,7 @@ const useInterruptionType = (): returnType => {
         toast.error('Something went wrong')
       }
     })
-  const useAllWorkInterruptions = () => {
+  const useAllWorkInterruptions = (): UseQueryResult<WorkInterruptions, Error> => {
     return useQuery<WorkInterruptions, Error>({
       queryKey: ['GET_ALL_INTERRUPTIONS_QUERY'],
       queryFn: async () => {
