@@ -525,7 +525,7 @@ type Project {
 
 type Query {
   getHello: String!
-  userById: UserDTO
+  userById(id: Int!): UserDTO
   userByEmail(email: String!): UserDTO
   allUsers: [User!]!
   allESLUsers(exceptUserId: Int): [User!]!

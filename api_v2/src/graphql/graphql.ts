@@ -802,7 +802,7 @@ export class Project {
 export abstract class IQuery {
     abstract getHello(): string | Promise<string>;
 
-    abstract userById(): Nullable<UserDTO> | Promise<Nullable<UserDTO>>;
+    abstract userById(id: number): Nullable<UserDTO> | Promise<Nullable<UserDTO>>;
 
     abstract userByEmail(email: string): Nullable<UserDTO> | Promise<Nullable<UserDTO>>;
 
