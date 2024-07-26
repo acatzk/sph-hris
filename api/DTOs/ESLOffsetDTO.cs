@@ -14,7 +14,7 @@ namespace api.DTOs
             {
                 Id = eslOffset.Id;
                 UserId = eslOffset.UserId;
-                UserName = eslOffset.User.Name;
+                UserName = eslOffset.User?.Name;
                 TimeEntryId = eslOffset.TimeEntryId;
                 TeamLeaderId = eslOffset.TeamLeaderId;
                 TimeIn = eslOffset.TimeIn.ToString(@"hh\:mm");

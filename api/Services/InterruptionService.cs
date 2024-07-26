@@ -92,7 +92,7 @@ namespace api.Services
                 var interruptions = await context.WorkInterruptions
                     .Include(wi => wi.WorkInterruptionType)
                     .Include(wi => wi.TimeEntry)
-                        .ThenInclude(te => te.User)  // Ensure the User is included
+                        .ThenInclude(te => te.User)
                     .ToListAsync();
 
                 return interruptions.Select(wi => new WorkInterruptionDTO(wi)).ToList();
