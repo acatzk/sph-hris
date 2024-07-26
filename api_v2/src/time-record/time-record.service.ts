@@ -29,17 +29,16 @@ export class TimeRecordService {
     /**
    * Maps a single employee timesheet from the database model to the DTO.
    *
-   * @param {WorkInterruption} interruption - The work interruption object from the database.
-   * @returns {WorkInterruptionDTO} The mapped work interruption DTO.
+   * @param {TimeEntry} timeEntry - The timeEntry object from the database.
+   * @returns {TimeEntryDTO} The mapped Time Entry DTO.
    */
     private mapTimesheet(timeEntry: any): TimeEntryDTO{
 
-        let workStatus, late = 0;
-        //let undertime = 0;
+        let workStatus, late = 0, undertime = 0;
         if(timeEntry.timeIn){
             workStatus = WorkStatusEnum.ONDUTY;
             late = timeEntry.timeIn.timeHour - timeEntry.startTime;
-            //undertime = timeEntry.timeOut.timeHour - timeEntry.endTime;
+            undertime = timeEntry.timeOut.timeHour - timeEntry.endTime;
         }
         else{
             workStatus = WorkStatusEnum.ABSENT
@@ -59,7 +58,7 @@ export class TimeRecordService {
             timeOut: timeEntry.timeOut || null,
             date: timeEntry.date,
             late: late,
-            undertime: 0, //TODO add logic here maybe  time out - endtime (something like that)
+            undertime: undertime,
             eslChangeShift: timeEntry.eslChangeShiftRequests.length === 0 ? 
             null
             : timeEntry.eslChangeShiftRequests,
@@ -99,6 +98,12 @@ export class TimeRecordService {
         return this.mapUser(user as User);
     }
 
+    /**
+    * Maps a single user object from the database model to the DTO.
+    *
+    * @param {User} user - The user object from the database.
+    * @returns {UserDTO} The mapped User DTO.
+    */
     private mapUser(user: User): UserDTO{
         const mappedUser: UserDTO = {
             id: user.id,

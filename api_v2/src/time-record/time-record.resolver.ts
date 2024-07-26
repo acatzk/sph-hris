@@ -22,8 +22,8 @@ export class TimeRecordResolver {
     /**
     * Handles the GET_USER_QUERY request.
     *
-    * @param {ShowInterruptionRequestInput} interruption - The input for fetching interruptions.
-    * @returns {Promise<WorkInterruptionDTO[]>} The list of work interruptions.
+    * @param {number} id - The user ID input.
+    * @returns {Promise<UserDTO>} User information.
     */
     //
     @Query(() => UserDTO)
