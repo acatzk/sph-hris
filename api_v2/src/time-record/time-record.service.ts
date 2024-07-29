@@ -37,8 +37,9 @@ export class TimeRecordService {
         let workStatus, late = 0, undertime = 0;
         if(timeEntry.timeIn){
             workStatus = WorkStatusEnum.ONDUTY;
-            late = timeEntry.timeIn.timeHour - timeEntry.startTime;
-            undertime = timeEntry.timeOut.timeHour - timeEntry.endTime;
+            //Times are in milliseconds
+            late = Math.max(0, (timeEntry.startTime - timeEntry.timeIn.timeHour) / 60000);
+            undertime = Math.max(0, (timeEntry.endTime - timeEntry.timeOut.timeHour) / 60000);
         }
         else{
             workStatus = WorkStatusEnum.ABSENT
@@ -107,10 +108,10 @@ export class TimeRecordService {
     private mapUser(user: User): UserDTO{
         const mappedUser: UserDTO = {
             id: user.id,
-            name: user.name,
-            email: user.email,
-            profileImageId: user.profileImageId,
-            profileImage: user.profileImage,
+            name: user.name || null,
+            email: user.email || null,
+            profileImageId: user.profileImageId || null,
+            profileImage: user.profileImage || null,
             roleId: user.roleId,
             positionId: user.positionId,
             employeeScheduleId: user.employeeScheduleId,
@@ -120,7 +121,7 @@ export class TimeRecordService {
             position: user.position,
             employeeSchedule: user.employeeSchedule,
             timeEntries: user.timeEntries,
-            overtimes: user.overtimes,
+            overtimes: user.overtimes || [],
             createdAt: user.createdAt,
             updatedAt: user.updatedAt
         }
