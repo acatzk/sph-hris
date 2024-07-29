@@ -87,16 +87,15 @@ namespace api.Services
         }
         public async Task<List<WorkInterruptionDTO>> GetAllInterruptions()
         {
-            using (HrisContext context = _contextFactory.CreateDbContext())
-            {
-                var interruptions = await context.WorkInterruptions
-                    .Include(wi => wi.WorkInterruptionType)
-                    .Include(wi => wi.TimeEntry)
-                        .ThenInclude(te => te.User)
-                    .ToListAsync();
+            using HrisContext context = _contextFactory.CreateDbContext();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            var interruptions = await context.WorkInterruptions
+                .Include(wi => wi.WorkInterruptionType)
+                .Include(wi => wi.TimeEntry)
+                    .ThenInclude(te => te.User)
+                .ToListAsync();
 
-                return interruptions.Select(wi => new WorkInterruptionDTO(wi)).ToList();
-            }
+            return interruptions.Select(wi => new WorkInterruptionDTO(wi)).ToList();
         }
         public async Task IncludeRelatedData(WorkInterruptionDTO interruption)
         {

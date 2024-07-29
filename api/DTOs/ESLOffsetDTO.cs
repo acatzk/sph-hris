@@ -14,7 +14,7 @@ namespace api.DTOs
             {
                 Id = eslOffset.Id;
                 UserId = eslOffset.UserId;
-                UserName = eslOffset.User?.Name;
+                UserName = eslOffset.User?.Name ?? string.Empty;
                 TimeEntryId = eslOffset.TimeEntryId;
                 TeamLeaderId = eslOffset.TeamLeaderId;
                 TimeIn = eslOffset.TimeIn.ToString(@"hh\:mm");
@@ -22,7 +22,7 @@ namespace api.DTOs
                 Title = eslOffset.Title;
                 Description = eslOffset.Description;
                 IsLeaderApproved = eslOffset.IsLeaderApproved;
-                User = eslOffset.User;
+                User = eslOffset.User ?? new User();
                 TeamLeader = eslOffset.TeamLeader;
                 TimeEntry = eslOffset.TimeEntry;
                 IsUsed = eslOffset.IsUsed;
