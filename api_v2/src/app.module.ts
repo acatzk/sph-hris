@@ -24,6 +24,7 @@ import { graphqlUploadExpress } from 'graphql-upload-ts';
 import { WorkInterruptionModule } from './work-interruption/work-interruption.module';
 import { APP_GUARD } from '@nestjs/core';
 import { PositionsGuard } from './guards/position.guard';
+import { TimeOutModule } from './time-out/time-out.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { PositionsGuard } from './guards/position.guard';
     LogoutModule,
     FileUploadModule,
     WorkInterruptionModule,
+    TimeOutModule,
   ],
   controllers: [AppController],
   providers: [
