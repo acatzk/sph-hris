@@ -178,6 +178,7 @@ export class WorkInterruptionService {
           workInterruptionTypeId: workInterruptionTypeId
             ? workInterruptionTypeId
             : undefined,
+          updatedAt: getCurrentDate().toString(),
         },
       });
 
