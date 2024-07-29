@@ -105,12 +105,6 @@ export class TimeOutService {
     const scheduledHours =
       timeEntry.endTime.getTime() - timeEntry.startTime.getTime();
 
-    this.logger.debug(`scheduledHours (ms): ${scheduledHours}`);
-    this.logger.debug(`undertime (minutes): ${undertime}`);
-    this.logger.debug(`late (minutes): ${late}`);
-    this.logger.debug(`undertimeTimeSpan (ms): ${undertimeTimeSpan}`);
-    this.logger.debug(`lateTimeSpan (ms): ${lateTimeSpan}`);
-
     const trackedHours = scheduledHours - undertimeTimeSpan - lateTimeSpan;
 
     // Handle negative trackedHours values
@@ -120,8 +114,6 @@ export class TimeOutService {
       );
       return DateTime.fromMillis(0); // Return a DateTime representing 0 hours
     }
-
-    this.logger.debug(`calculated trackedHours (ms): ${trackedHours}`);
 
     // Convert trackedHours to a DateTime
 
