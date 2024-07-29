@@ -46,38 +46,15 @@ export class TimeRecordService {
         }
 
         const mappedTimesheet: TimeEntryDTO = {
-            user: timeEntry.user,
-            startTime: timeEntry.startTime ? 
-            timeEntry.startTime.toISOString().slice(11, 19)
-            : null,
-            endTime: timeEntry.endTime ? 
-            timeEntry.endTime.toISOString().slice(11, 19)
-            : null,
-            workedHours: timeEntry.workedHours || null,
-            trackedHours: timeEntry.trackedHours || null,
-            timeIn: timeEntry.timeIn || null,
-            timeOut: timeEntry.timeOut || null,
-            date: timeEntry.date,
+            ...timeEntry,
+            startTime: timeEntry.startTime.toISOString().slice(11, 19),
+            endTime: timeEntry.endTime.toISOString().slice(11, 19),
             late: late,
             undertime: undertime,
             eslChangeShift: timeEntry.eslChangeShiftRequests.length === 0 ? 
             null
             : timeEntry.eslChangeShiftRequests,
             status: workStatus,
-            isLeaderApproved: timeEntry.overtime?.isLeaderApproved || null,
-            changeShift: timeEntry.changeShiftRequest || null,
-            id: timeEntry.id,
-            userId: timeEntry.userId,
-            timeInId: timeEntry.timeInId || null,
-            timeOutId: timeEntry.timeOutId || null,
-            breakStartTime: timeEntry.breakStartTime,
-            breakEndTime: timeEntry.breakEndTime,
-            overtime: timeEntry.overtime || null,
-            changeShiftRequest: timeEntry.changeShiftRequest || null,
-            workInterruptions: timeEntry.workInterruptions,
-            eslOffsets: timeEntry.eslOffsets || null,
-            createdAt: timeEntry.createdAt || null,
-            updatedAt: timeEntry.updatedAt || null
         };
 
         return mappedTimesheet;
@@ -107,23 +84,8 @@ export class TimeRecordService {
     */
     private mapUser(user: User): UserDTO{
         const mappedUser: UserDTO = {
-            id: user.id,
-            name: user.name || null,
-            email: user.email || null,
-            profileImageId: user.profileImageId || null,
-            profileImage: user.profileImage || null,
-            roleId: user.roleId,
-            positionId: user.positionId,
-            employeeScheduleId: user.employeeScheduleId,
-            paidLeaves: user.paidLeaves,
-            isOnline: user.isOnline,
-            role: user.role,
-            position: user.position,
-            employeeSchedule: user.employeeSchedule,
-            timeEntries: user.timeEntries,
+            ...user,
             overtimes: user.overtimes || [],
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt
         }
 
         return mappedUser;
