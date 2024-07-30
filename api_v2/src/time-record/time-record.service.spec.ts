@@ -35,7 +35,7 @@ describe('TimeRecordService', () => {
         id: 1,
         name: "Abdul Jalil Palala",
         email: "abduljalil.palala@sun-asterisk.com",
-        overtimes: new Array,
+        overtimes: [],
       };
 
       (jest.spyOn(prismaService.user, 'findUnique') as jest.Mock).mockResolvedValue(result);

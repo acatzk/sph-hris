@@ -4,7 +4,7 @@ import { TimeRecordService } from './time-record.service';
 
 describe('TimeRecordResolver', () => {
   let resolver: TimeRecordResolver;
-  let mockTimeRecordService = {
+  const mockTimeRecordService = {
     getUserById: jest.fn().mockResolvedValue({id: 1, name: 'Abdul Jalil Palala'}),
     getTimeEntriesById: jest.fn().mockResolvedValue({startTime: "09:30:00"}),
   };
