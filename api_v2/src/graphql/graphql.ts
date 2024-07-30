@@ -7,6 +7,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum WorkStatusEnum {
+  ONDUTY = 'ONDUTY',
+  ABSENT = 'ABSENT',
+  REST = 'REST',
+  AWAITING = 'AWAITING',
+}
+
 export class AddMemberToScheduleRequestInput {
   userId: number;
   employeeIds: number[];
@@ -887,7 +894,7 @@ export abstract class IQuery {
 
   abstract timeEntries(
     date?: Nullable<string>,
-    status?: Nullable<string>,
+    status?: Nullable<WorkStatusEnum>,
   ): TimeEntryDTO[] | Promise<TimeEntryDTO[]>;
 
   abstract timesheetSummary(
@@ -1068,9 +1075,9 @@ export class TimeEntryDTO {
   timeIn?: Nullable<TimeDTO>;
   timeOut?: Nullable<TimeDTO>;
   date: Date;
-  late: number;
+  late?: Nullable<number>;
   undertime: number;
-  status: string;
+  status?: Nullable<WorkStatusEnum>;
   isLeaderApproved?: Nullable<boolean>;
   changeShift?: Nullable<ChangeShiftDTO>;
   eslChangeShift?: Nullable<ESLChangeShiftDTO>;

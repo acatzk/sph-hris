@@ -557,7 +557,7 @@ type Query {
   specificTimeEntryById(id: Int!): TimeEntry
   specificUserProfileDetail(id: Int!): UserDTO
   timeEntriesByEmployeeId(id: Int!): [TimeEntryDTO!]
-  timeEntries(date: String, status: String): [TimeEntryDTO!]!
+  timeEntries(date: String, status: WorkStatusEnum): [TimeEntryDTO!]!
   timesheetSummary(
     startDate: String
     endDate: String
@@ -673,6 +673,13 @@ type TimeEntry {
   updatedAt: DateTime
 }
 
+enum WorkStatusEnum {
+  ONDUTY
+  ABSENT
+  REST
+  AWAITING
+}
+
 type TimeEntryDTO {
   user: UserDTO!
   startTime: String
@@ -682,9 +689,9 @@ type TimeEntryDTO {
   timeIn: TimeDTO
   timeOut: TimeDTO
   date: Date!
-  late: Int!
+  late: Int
   undertime: Int!
-  status: String!
+  status: WorkStatusEnum
   isLeaderApproved: Boolean
   changeShift: ChangeShiftDTO
   eslChangeShift: ESLChangeShiftDTO
