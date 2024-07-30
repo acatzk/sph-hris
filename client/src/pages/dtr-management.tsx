@@ -4,6 +4,9 @@ import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { PulseLoader } from 'react-spinners'
 import React, { useEffect, useState } from 'react'
+import { CSVLink } from 'react-csv'
+import useInterruptionType from '~/hooks/useInterruptionType'
+import useFileOffset from '~/hooks/useFileOffset'
 
 import NotFound from './404'
 import useUserQuery from '~/hooks/useUserQuery'
@@ -160,6 +163,24 @@ const DTRManagement: NextPage = (): JSX.Element => {
     }
   }
 
+  const { useAllWorkInterruptions } = useInterruptionType()
+  const workInterruption = useAllWorkInterruptions()
+
+  const [fetchedWorkInterruptionsData, setFetchedWorkInterruptionsData] = useState({
+    data: workInterruption.data,
+    error: workInterruption.error,
+    isLoading: workInterruption.isLoading
+  })
+
+  const { getAllFiledOffsetsQuery } = useFileOffset()
+  const filedOffset = getAllFiledOffsetsQuery()
+
+  const [fetchedFiledOffsetData, setFetchedFiledOffsetData] = useState({
+    data: filedOffset.data,
+    error: filedOffset.error,
+    isLoading: filedOffset.isLoading
+  })
+
   const setFetchedData = (data: any, setState: any): void => {
     if (data !== undefined) {
       setState({
@@ -168,6 +189,17 @@ const DTRManagement: NextPage = (): JSX.Element => {
         isLoading: data.isLoading
       })
     }
+  }
+  const getSummaryFilename = (): string => {
+    const startDate = moment(filters.startDate)
+    const endDate = moment(filters.endDate)
+    const dateRange =
+      startDate.date() === 1 && endDate.date() === 15
+        ? '1-15'
+        : startDate.date() === 16
+        ? '16-31'
+        : `${startDate.date()}-${endDate.date()}`
+    return `Summary-${startDate.format('MMM-YYYY')}-(${dateRange}).csv`
   }
 
   useEffect(() => {
@@ -216,9 +248,73 @@ const DTRManagement: NextPage = (): JSX.Element => {
     setFetchedData(summary, setFetchedSummaryData)
   }, [summary.data])
 
+  useEffect(() => {
+    setFetchedWorkInterruptionsData({
+      data: workInterruption.data,
+      error: workInterruption.error,
+      isLoading: workInterruption.isLoading
+    })
+  }, [workInterruption.data, workInterruption.error, workInterruption.isLoading])
+
+  useEffect(() => {
+    setFetchedFiledOffsetData({
+      data: filedOffset.data,
+      error: filedOffset.error,
+      isLoading: filedOffset.isLoading
+    })
+  }, [filedOffset.data, filedOffset.error, filedOffset.isLoading])
+
   if (process.env.NODE_ENV === 'production' && currentUser?.userById.role.name !== Roles.HR_ADMIN) {
     return <NotFound />
   }
+
+  const SummaryHeaders = [
+    { label: 'Name', key: 'user.name' },
+    { label: 'Leave(days)', key: 'leave' },
+    { label: 'Abscenses', key: 'absences' },
+    { label: 'Late', key: 'late' },
+    { label: 'Undertime(min)', key: 'undertime' },
+    { label: 'Overtime(min)', key: 'overtime' }
+  ]
+  const DTRheaders = [
+    { label: 'Date', key: 'date' },
+    { label: 'Name', key: 'user.name' },
+    { label: 'Status', key: 'status' },
+    { label: 'Time In', key: 'timeIn.timeHour' },
+    { label: 'Time In Remarks', key: 'timeIn.remarks' },
+    { label: 'Time Out', key: 'timeOut.timeHour' },
+    { label: 'Time Out Remarks', key: 'timeOut.remarks' },
+    { label: 'Start Time', key: 'startTime' },
+    { label: 'End Time', key: 'endTime' },
+    { label: 'Work Hours', key: 'workedHours' },
+    { label: 'Late(min)', key: 'late' },
+    { label: 'Undertime(min)', key: 'undertime' },
+    { label: 'Overtime(min)', key: 'overtime.approvedMinutes' }
+  ]
+
+  const InterruptionHeader = [
+    { label: 'Name', key: 'userName' },
+    { label: 'ID', key: 'id' },
+    { label: 'Time Out', key: 'timeOut' },
+    { label: 'Time In', key: 'timeIn' },
+    { label: 'Other Reason', key: 'otherReason' },
+    { label: 'Remarks', key: 'remarks' },
+    { label: 'Work Interruption Type ID', key: 'workInterruptionTypeId' },
+    { label: 'Work Interruption Type', key: 'workInterruptionType.name' },
+    { label: 'Time Entry ID', key: 'timeEntryId' },
+    { label: 'Created At', key: 'createdAt' }
+  ]
+
+  const FiledOffsetHeader = [
+    { label: 'Name', key: 'userName' },
+    { label: 'Title', key: 'title' },
+    { label: 'Time Out', key: 'timeOut' },
+    { label: 'Time In', key: 'timeIn' },
+    { label: 'Team Leader', key: 'teamLeader.name' },
+    { label: 'Status', key: 'isLeaderApproved' },
+    { label: 'Is Used', key: 'isUsed' },
+    { label: 'Remarks', key: 'description' }
+  ]
 
   return (
     <Layout metaTitle="DTR Management">
@@ -246,7 +342,7 @@ const DTRManagement: NextPage = (): JSX.Element => {
               placeholder="Search"
             />
             <div className="flex items-center space-x-2 text-slate-500">
-              <div className="fixed right-[68px] z-50">
+              <div className="fixed right-[500px] z-50">
                 <TimeSheetFilterDropdown
                   filters={filters}
                   setFilters={setFilters}
@@ -262,6 +358,39 @@ const DTRManagement: NextPage = (): JSX.Element => {
                   }
                 }}
               />
+
+              <CSVLink
+                data={
+                  isOpenSummaryTable
+                    ? fetchedSummaryData.data?.timesheetSummary ?? []
+                    : fetchedAllEmployeeData.data?.timeEntries ?? []
+                }
+                headers={isOpenSummaryTable ? SummaryHeaders : DTRheaders}
+                filename={isOpenSummaryTable ? getSummaryFilename() : `DTR_${filters.date}`}
+              >
+                <button className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
+                  Export DTR
+                </button>
+              </CSVLink>
+
+              <CSVLink
+                data={fetchedWorkInterruptionsData.data?.allWorkInterruptions ?? []}
+                headers={InterruptionHeader}
+                filename={`Work_Interruption_${filters.date}.csv`}
+              >
+                <button className="rounded bg-red-500 px-4 py-2 text-white hover:bg-blue-700">
+                  Export Work Interuption
+                </button>
+              </CSVLink>
+              <CSVLink
+                data={fetchedFiledOffsetData.data?.allFiledOffsets ?? []}
+                headers={FiledOffsetHeader}
+                filename={`FiledOffset_${filters.date}.csv`}
+              >
+                <button className="rounded bg-yellow-500 px-4 py-2 text-white hover:bg-blue-700">
+                  Export FiledOffset
+                </button>
+              </CSVLink>
             </div>
           </div>
         </header>
