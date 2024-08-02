@@ -25,6 +25,8 @@ import { WorkInterruptionModule } from './work-interruption/work-interruption.mo
 import { APP_GUARD } from '@nestjs/core';
 import { PositionsGuard } from './guards/position.guard';
 import { TimeRecordModule } from './time-record/time-record.module';
+import { UserModule } from './user/user.module';
+import { DtrManagementModule } from './dtr-management/dtr-management.module';
 
 @Module({
   imports: [
@@ -82,6 +84,8 @@ import { TimeRecordModule } from './time-record/time-record.module';
     FileUploadModule,
     WorkInterruptionModule,
     TimeRecordModule,
+    UserModule,
+    DtrManagementModule,
   ],
   controllers: [AppController],
   providers: [

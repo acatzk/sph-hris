@@ -11,15 +11,17 @@ namespace api.Schema.Queries
         {
             _eslOffsetService = eslOffsetService;
         }
-
         public async Task<List<ESLOffsetDTO>> GetESLOffsetsByTimeEntry(int timeEntryId, bool onlyUnused = false)
         {
             return await _eslOffsetService.GetTimeEntryOffsets(timeEntryId, onlyUnused);
         }
-
         public async Task<List<ESLOffsetDTO>> GetAllESLOffsets(bool? isUsed = null)
         {
             return await _eslOffsetService.GetAllESLOffsets(isUsed);
+        }
+        public async Task<List<ESLOffsetDTO>> GetAllFiledOffsets()
+        {
+            return await _eslOffsetService.GetAllFiledOffsets();
         }
     }
 }

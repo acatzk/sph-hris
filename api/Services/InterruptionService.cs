@@ -85,5 +85,32 @@ namespace api.Services
                 return new WorkInterruptionDTO(work);
             }
         }
+        public async Task<List<WorkInterruptionDTO>> GetAllInterruptions()
+        {
+            using HrisContext context = _contextFactory.CreateDbContext();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            var interruptions = await context.WorkInterruptions
+                .Include(wi => wi.WorkInterruptionType)
+                .Include(wi => wi.TimeEntry)
+                    .ThenInclude(te => te.User)
+                .ToListAsync();
+
+            return interruptions.Select(wi => new WorkInterruptionDTO(wi)).ToList();
+        }
+        public async Task IncludeRelatedData(WorkInterruptionDTO interruption)
+        {
+            using (HrisContext context = _contextFactory.CreateDbContext())
+            {
+                var timeEntry = await context.TimeEntries
+                    .Include(te => te.User)
+                    .FirstOrDefaultAsync(te => te.Id == interruption.TimeEntryId);
+
+                if (timeEntry != null)
+                {
+                    interruption.TimeEntry = timeEntry;
+                    interruption.UserName = timeEntry.User?.Name;
+                }
+            }
+        }
     }
 }
