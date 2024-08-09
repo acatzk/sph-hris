@@ -27,6 +27,7 @@ import { PositionsGuard } from './guards/position.guard';
 import { TimeRecordModule } from './time-record/time-record.module';
 import { UserModule } from './user/user.module';
 import { DtrManagementModule } from './dtr-management/dtr-management.module';
+import { TimeOutModule } from './time-out/time-out.module';
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { DtrManagementModule } from './dtr-management/dtr-management.module';
     TimeRecordModule,
     UserModule,
     DtrManagementModule,
+    TimeOutModule,
   ],
   controllers: [AppController],
   providers: [

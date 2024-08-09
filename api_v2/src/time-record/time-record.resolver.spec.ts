@@ -5,16 +5,21 @@ import { TimeRecordService } from './time-record.service';
 describe('TimeRecordResolver', () => {
   let resolver: TimeRecordResolver;
   const mockTimeRecordService = {
-    getUserById: jest.fn().mockResolvedValue({id: 1, name: 'Abdul Jalil Palala'}),
-    getTimeEntriesById: jest.fn().mockResolvedValue({startTime: "09:30:00"}),
+    getUserById: jest
+      .fn()
+      .mockResolvedValue({ id: 1, name: 'Abdul Jalil Palala' }),
+    getTimeEntriesById: jest.fn().mockResolvedValue({ startTime: '09:30:00' }),
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TimeRecordResolver, {
-        provide: TimeRecordService,
-        useValue: mockTimeRecordService
-      }],
+      providers: [
+        TimeRecordResolver,
+        {
+          provide: TimeRecordService,
+          useValue: mockTimeRecordService,
+        },
+      ],
     }).compile();
 
     resolver = module.get<TimeRecordResolver>(TimeRecordResolver);
@@ -28,7 +33,7 @@ describe('TimeRecordResolver', () => {
     it('should call the service to get user', async () => {
       const result = await resolver.userById(1);
 
-      expect(result).toEqual({id: 1, name: 'Abdul Jalil Palala'});
+      expect(result).toEqual({ id: 1, name: 'Abdul Jalil Palala' });
     });
   });
 
@@ -36,7 +41,7 @@ describe('TimeRecordResolver', () => {
     it('should call the service to get time entries', async () => {
       const result = await resolver.timeEntriesByEmployeeId(1);
 
-      expect(result).toEqual({startTime: "09:30:00"});
+      expect(result).toEqual({ startTime: '09:30:00' });
     });
   });
 });

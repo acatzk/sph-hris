@@ -4,6 +4,6 @@ import { TimeRecordService } from './time-record.service';
 import { PrismaService } from '@/prisma/prisma.service';
 
 @Module({
-  providers: [TimeRecordResolver, TimeRecordService, PrismaService]
+  providers: [TimeRecordResolver, TimeRecordService, PrismaService],
 })
 export class TimeRecordModule {}
