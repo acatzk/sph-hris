@@ -28,6 +28,7 @@ import { TimeRecordModule } from './time-record/time-record.module';
 import { UserModule } from './user/user.module';
 import { DtrManagementModule } from './dtr-management/dtr-management.module';
 import { TimeOutModule } from './time-out/time-out.module';
+import { OvertimeModule } from './overtime/overtime.module';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { TimeOutModule } from './time-out/time-out.module';
     UserModule,
     DtrManagementModule,
     TimeOutModule,
+    OvertimeModule,
   ],
   controllers: [AppController],
   providers: [

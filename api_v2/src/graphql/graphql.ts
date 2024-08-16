@@ -806,11 +806,11 @@ export class Overtime {
 export class OvertimeDTO {
   user?: Nullable<Over>;
   id: number;
-  projects: MultiProject[];
+  projects?: Nullable<MultiProject[]>;
   otherProject?: Nullable<string>;
-  supervisor: string;
+  supervisor?: Nullable<string>;
   dateFiled?: Nullable<DateTime>;
-  remarks: string;
+  remarks?: Nullable<string>;
   overtimeDate?: Nullable<DateTime>;
   approvedMinutes?: Nullable<number>;
   isLeaderApproved?: Nullable<boolean>;
@@ -820,7 +820,7 @@ export class OvertimeDTO {
   managerId?: Nullable<number>;
   timeEntryId: number;
   requestedMinutes: number;
-  multiProjects: MultiProject[];
+  multiProjects?: Nullable<MultiProject[]>;
   manager: User;
   timeEntry: TimeEntry;
   createdAt?: Nullable<DateTime>;

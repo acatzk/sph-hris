@@ -492,11 +492,11 @@ type Overtime {
 type OvertimeDTO {
   user: Over
   id: Int!
-  projects: [MultiProject!]!
+  projects: [MultiProject!]
   otherProject: String
-  supervisor: String!
+  supervisor: String
   dateFiled: DateTime
-  remarks: String!
+  remarks: String
   overtimeDate: DateTime
   approvedMinutes: Int
   isLeaderApproved: Boolean
@@ -506,7 +506,7 @@ type OvertimeDTO {
   managerId: Int
   timeEntryId: Int!
   requestedMinutes: Int!
-  multiProjects: [MultiProject!]!
+  multiProjects: [MultiProject!]
   manager: User!
   timeEntry: TimeEntry!
   createdAt: DateTime
