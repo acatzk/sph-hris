@@ -29,6 +29,7 @@ import { UserModule } from './user/user.module';
 import { DtrManagementModule } from './dtr-management/dtr-management.module';
 import { TimeOutModule } from './time-out/time-out.module';
 import { OvertimeModule } from './overtime/overtime.module';
+import { LeavesModule } from './leaves/leaves.module';
 
 @Module({
   imports: [
@@ -90,6 +91,7 @@ import { OvertimeModule } from './overtime/overtime.module';
     DtrManagementModule,
     TimeOutModule,
     OvertimeModule,
+    LeavesModule,
   ],
   controllers: [AppController],
   providers: [

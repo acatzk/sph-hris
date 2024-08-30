@@ -522,7 +522,7 @@ export class LeaveDTO {
   managerId?: Nullable<number>;
   otherProject?: Nullable<string>;
   isDeleted: boolean;
-  leaveProjects: MultiProject[];
+  leaveProjects?: Nullable<MultiProject[]>;
   user: User;
   leaveNotifications: LeaveNotification[];
   updatedAt?: Nullable<DateTime>;
