@@ -272,7 +272,7 @@ type LeaveDTO {
   managerId: Int
   otherProject: String
   isDeleted: Boolean!
-  leaveProjects: [MultiProject!]!
+  leaveProjects: [MultiProject!]
   user: User!
   leaveNotifications: [LeaveNotification!]!
   updatedAt: DateTime
